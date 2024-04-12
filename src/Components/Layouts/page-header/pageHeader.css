@@ -1,0 +1,16 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+@media only screen and (max-width: 684px) {
+  .page-header {
+    flex-direction: column;
+    height: 100px;
+  }
+  .page-action {
+    margin-top: 4px;
+    width: 100%;
+  }
+}

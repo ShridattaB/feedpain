@@ -7,11 +7,7 @@ export default authenticated
       {
         title: "Feedback",
         path: "/feedback",
-        icon: "",
-        subMenu: [
-          { title: "Create Feedback", path: "/create-feedback", icon: "" },
-          { title: "View My Feedback", path: "/list-feedback", icon: "" },
-        ],
+        icon: "", 
       },
       { title: "Complaint", path: "/complaint", icon: "" },
     ]
@@ -21,7 +17,7 @@ export default authenticated
       { title: "FAQ", path: "/FAQ", icon: "" },
     ];
 export const leftMenu = authenticated
-  ? [{ title: "Profile", path: "/", icon: "" }]
+  ? [{ title: "Profile", path: "/profile", icon: "" }]
   : [
       { title: "Sign In", path: "sign-in", icon: "" },
       { title: "Sign Up", path: "sign-up", icon: "" },

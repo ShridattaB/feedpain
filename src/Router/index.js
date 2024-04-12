@@ -4,16 +4,19 @@ import PublicHome from "../Components/Pages/Landing/Home/PublicHome";
 import Private from "../Components/Pages/Private/Home/Private";
 import SignIn from "../Components/Pages/Landing/Sign-in/SignIn";
 import SignUp from "../Components/Pages/Landing/Sign-up/SignUp";
-import FeedPainTheme from "./../Components/Layouts/FeedPainTheme"; 
-import {IsAuthenticated} from "../Utils/userUtils"
-const authenticated= IsAuthenticated();
+import FeedPainTheme from "./../Components/Layouts/FeedPainTheme";
+import { IsAuthenticated } from "../Utils/userUtils"
+import Feedback from "./../Components/Pages/Private/Feedback/Feedback"
+import Complaint from "./../Components/Pages/Private/Complaint/Complaint"
+import Profile from "../Components/Pages/Private/Profile/Profile";
+const authenticated = IsAuthenticated();
 const routes = [
   {
     name: "Landing",
     path: "/",
     exact: true,
-    component: authenticated? Private : PublicHome,
-    private:authenticated ,
+    component: authenticated ? Private : PublicHome,
+    private: authenticated,
   },
   {
     name: "Sign In",
@@ -36,9 +39,21 @@ const routes = [
   {
     name: "Feedback",
     path: "/feedback",
-    component: SignUp,
+    component: Feedback,
     private: true,
   },
+  {
+    name: "Complaint",
+    path: "/complaint",
+    component: Complaint,
+    private: true,
+  },
+  {
+    name: "Profile",
+    path: "/profile",
+    component: Profile,
+    private: true,
+  }
 ];
 const SetDocumentData = ({ children, name }) => {
   useEffect(() => {

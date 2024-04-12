@@ -83,8 +83,13 @@ export default function Header({ mode, toggleColorMode }) {
               />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 {rightMenu.map((menu) => (
-                  <MenuItem onClick={(e) => redirectTo(menu.path)}>
-                    {menu.title}
+                  <MenuItem
+                    onClick={() => redirectTo(menu.path)}
+                    sx={{ py: "6px", px: "12px" }}
+                  >
+                    <Typography variant="body2" color="text.primary">
+                      {menu.title}
+                    </Typography>
                   </MenuItem>
                 ))}
               </Box>

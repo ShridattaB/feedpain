@@ -3,20 +3,20 @@
   height: 100vh;
 }
 .theme-section {
-  height: calc(100vh - 134px);
+  height: calc(100vh - 120px);
   margin-top: 100px;
 }
 .theme-section-card {
   height: inherit;
   background-color: rgba(255, 255, 255, 0.4) !important;
   -webkit-backdrop-filter: blur(24px) !important;
-  backdrop-filter: blur(24px) !important; 
+  backdrop-filter: blur(24px) !important;
   border: 1px solid !important;
   border-color: rgba(0, 0, 0, 0.12) !important;
   box-shadow: 0 0 1px rgba(85, 166, 246, 0.1),
     1px 1.5px 2px -1px rgba(85, 166, 246, 0.15),
     4px 4px 12px -2.5px rgba(85, 166, 246, 0.15) !important;
-    overflow: scroll !important;
+  overflow: scroll !important;
 }
 .theme-section-card::-webkit-scrollbar {
   display: none;
@@ -24,6 +24,6 @@
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .theme-section-card {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
