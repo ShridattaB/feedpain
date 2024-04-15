@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./complaint.css";
 // ** MUI Imports
 import Grid from "@mui/material/Grid";
@@ -10,11 +10,13 @@ import Table from "./../../../Table/Table";
 
 import { Button, styled } from "@mui/material";
 import { Link } from "react-router-dom";
+import CustomDialog from "../../../Diloag/CustomDialog";
 const TypographyStyled = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
 
 export default function Complaint() {
+  const [show,setShow]=useState(false)
   return (
     <>
       <PageHeader
@@ -25,11 +27,12 @@ export default function Complaint() {
           </Typography>
         }
         action={
-          <Button size="sm" variant="contained" fullWidth>
+          <Button size="sm" variant="contained" fullWidth onClick={setShow}>
             Create Complaint
           </Button>
         }
       />
+      <CustomDialog show={show} setShow={setShow}/>
       <Table />
     </>
   );

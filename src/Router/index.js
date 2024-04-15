@@ -9,6 +9,8 @@ import { IsAuthenticated } from "../Utils/userUtils"
 import Feedback from "./../Components/Pages/Private/Feedback/Feedback"
 import Complaint from "./../Components/Pages/Private/Complaint/Complaint"
 import Profile from "../Components/Pages/Private/Profile/Profile";
+import PageNotFound from "../Components/Pages/Error/PageNotFound";
+import FAQ from "../Components/Pages/FAQ/FAQ";
 const authenticated = IsAuthenticated();
 const routes = [
   {
@@ -52,6 +54,12 @@ const routes = [
     name: "Profile",
     path: "/profile",
     component: Profile,
+    private: true,
+  },
+  {
+    name: "FAQ",
+    path: "/faq",
+    component: FAQ,
     private: true,
   }
 ];
@@ -105,7 +113,7 @@ export default (
       name={"Error"}
       element={
         <SetDocumentData name="Error">
-          <h1>Error</h1>
+          <PageNotFound/>
         </SetDocumentData>
       }
     />

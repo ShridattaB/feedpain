@@ -1,0 +1,9 @@
+.profile-data{
+    height: 338px;
+    margin-bottom: 32px !important;
+}
+@media only screen and (max-width: 684px) {
+    .profile-data{
+        height: 100%;
+    }
+}

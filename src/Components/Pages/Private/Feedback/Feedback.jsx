@@ -1,20 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./feedback.css";
-// ** MUI Imports
-import Grid from "@mui/material/Grid";
+// ** MUI Imports 
 import Typography from "@mui/material/Typography";
 
 import PageHeader from "./../../../Layouts/page-header/index";
 
 import Table from "./../../../Table/Table";
 
-import { Button, styled } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Button, styled } from "@mui/material"; 
+import CustomDialog from "../../../Diloag/CustomDialog";
 const TypographyStyled = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
 
 export default function Feedback() {
+  const [show,setShow]=useState(false)
   return (
     <>
       <PageHeader
@@ -25,12 +25,13 @@ export default function Feedback() {
           </Typography>
         }
         action={
-          <Button size="sm" variant="contained" fullWidth>
+          <Button size="sm" variant="contained" fullWidth onClick={setShow}>
             Create Feedback
           </Button>
         }
       />
       <Table />
+      <CustomDialog setShow={setShow} show={show}/>
     </>
   );
 }

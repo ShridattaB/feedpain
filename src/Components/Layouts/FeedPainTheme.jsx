@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "@mui/material/Container";
-import Header from "./Header/Header";
+import Header from "./header/Header";
 import "./layout.css";
 import Card from "../Card/Card";
 import {Outlet} from 'react-router-dom'
