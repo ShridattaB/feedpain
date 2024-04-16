@@ -1,3 +1,4 @@
+import "./faq.css";
 // ** MUI Imports
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
@@ -5,12 +6,12 @@ import TabContext from "@mui/lab/TabContext";
 import Accordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import MuiTabList from "@mui/lab/TabList";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import BlindsClosedIcon from "@mui/icons-material/BlindsClosed";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 // ** Custom Components Imports
 import CustomAvatar from "./../../Avatar/avatar";
@@ -25,7 +26,7 @@ const MuiBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const TabList = styled(MuiTabList)(({ }) => ({
+const TabList = styled(MuiTabList)(({}) => ({
   minHeight: 40,
   "& .MuiTabs-flexContainer": {
     flexDirection: "column",
@@ -47,7 +48,7 @@ const TabList = styled(MuiTabList)(({ }) => ({
     },
     "&.Mui-selected": {
       color: "#fff",
-      backgroundColor:"#696CFF",
+      backgroundColor: "#696CFF",
     },
   },
 }));
@@ -222,13 +223,18 @@ const FAQ = () => {
             width: "100%",
             boxShadow: 0,
             backgroundColor: "transparent",
+            mr:[0,0,2]
           }}
         >
           <Box key={tab.id}>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              {/* <CustomAvatar skin='light' variant='rounded' sx={{ height: 42, width: 42 }}>
-                 <BlindsClosedIcon/>
-              </CustomAvatar>  */}
+              <CustomAvatar
+                skin="light"
+                variant="rounded"
+                sx={{ height: 42, width: 42 }}
+              >
+                <BlindsClosedIcon />
+              </CustomAvatar>
               <Box sx={{ ml: 4 }}>
                 <Typography variant="h5">{tab.title}</Typography>
                 <Typography sx={{ color: "text.secondary" }}>
@@ -239,10 +245,8 @@ const FAQ = () => {
             <Box sx={{ mt: 4 }}>
               {tab.qandA.map((item) => {
                 return (
-                  <Accordion key={item.id} >
-                    <AccordionSummary
-                      expandIcon={<KeyboardArrowDownIcon/>}
-                    >
+                  <Accordion key={item.id} className="tab-accordion">
+                    <AccordionSummary expandIcon={<KeyboardArrowDownIcon />}>
                       <Typography sx={{ fontWeight: "500" }}>
                         {item.question}
                       </Typography>
@@ -270,7 +274,7 @@ const FAQ = () => {
             <Tab
               key={tab.id}
               value={tab.id}
-              label={tab.title} 
+              label={tab.title}
               icon={<BlindsClosedIcon />}
             />
           );
@@ -284,21 +288,28 @@ const FAQ = () => {
   };
 
   return (
-    <MuiBox>
+    <MuiBox className="faq" style={{ marginTop: "14px" }}>
       <TabContext value={activeTab}>
         <Box
           sx={{
             mr: [0, 0, 6],
             mb: [6, 6, 0],
+            ml: [0, 0, 2],
             display: "flex",
             flexDirection: "column",
           }}
         >
           <TabList onChange={handleChange}>{renderTabs()}</TabList>
-          <Box sx={{ mt: 3.3, '& img': { maxWidth: '100%' }, display: { xs: 'none', md: 'block' } }}>
+          <Box
+            sx={{
+              mt: 9,
+              "& img": { maxWidth: "100%" },
+              display: { xs: "none", md: "block" },
+            }}
+          >
             <img
-              width='200'
-              alt='illustration'
+              width="200"
+              alt="illustration"
               src={`/images/pages/sitting-girl-with-laptop-light.png`}
             />
           </Box>

@@ -13,8 +13,7 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import ToggleColorMode from "./ToggleColorMode";
 import { useNavigate } from "react-router-dom";
-import rightMenu, { leftMenu } from "./menuList";
-import RenderMenuOption from "./RenderMenuOption";
+import rightMenu, { leftMenu } from "./menuList"; 
 const logoStyle = {
   width: "140px",
   height: "auto",

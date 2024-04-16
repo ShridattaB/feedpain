@@ -1,3 +1,3 @@
-export const IsAuthenticated=()=>{
-    return false
+export const isAuthenticated=()=>{
+    return true
 }

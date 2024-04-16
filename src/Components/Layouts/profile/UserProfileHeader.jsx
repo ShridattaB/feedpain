@@ -16,8 +16,8 @@ export default function UserProfileHeader({ setShow }) {
     joiningDate: "April 2021",
     designationIcon: "bx:pen",
     designation: "UX Designer",
-    profileImg: "./images/avatars/1.png",
-    coverImg: "./images/banners/banner-19.jpg",
+    profileImg: "/images/avatars/1.png",
+    coverImg: "/images/banners/banner-19.jpg",
   };
   const ProfilePicture = styled("img")(({ theme }) => ({
     width: 120,

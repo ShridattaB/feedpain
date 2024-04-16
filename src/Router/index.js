@@ -1,67 +1,79 @@
 import { Suspense, useEffect } from "react";
+import protectedRoute from "./protectedRoute";
 import { Route } from "react-router-dom";
 import PublicHome from "../Components/Pages/Landing/Home/PublicHome";
 import Private from "../Components/Pages/Private/Home/Private";
 import SignIn from "../Components/Pages/Landing/Sign-in/SignIn";
 import SignUp from "../Components/Pages/Landing/Sign-up/SignUp";
 import FeedPainTheme from "./../Components/Layouts/FeedPainTheme";
-import { IsAuthenticated } from "../Utils/userUtils"
-import Feedback from "./../Components/Pages/Private/Feedback/Feedback"
-import Complaint from "./../Components/Pages/Private/Complaint/Complaint"
+import { isAuthenticated } from "../Utils/userUtils";
+import Feedback from "./../Components/Pages/Private/Feedback/Feedback";
+import Complaint from "./../Components/Pages/Private/Complaint/Complaint";
 import Profile from "../Components/Pages/Private/Profile/Profile";
 import PageNotFound from "../Components/Pages/Error/PageNotFound";
 import FAQ from "../Components/Pages/FAQ/FAQ";
-const authenticated = IsAuthenticated();
+import AboutUs from "../Components/Pages/About/AboutUs";
+import { getUserRole } from "../Utils";
+const authenticated = isAuthenticated();
+const userRole=getUserRole()
 const routes = [
   {
     name: "Landing",
-    path: "/",
+    path: authenticated?`${userRole}`:`/`,
     exact: true,
     component: authenticated ? Private : PublicHome,
     private: authenticated,
+    role: [...(authenticated ? ["Admin", "User"] : [])],
   },
   {
     name: "Sign In",
     path: "/sign-in",
     component: SignIn,
     private: false,
+    role: [],
   },
   {
     name: "Sign Up",
     path: "/sign-up",
     component: SignUp,
     private: false,
+    role: [],
   },
   {
     name: "About",
     path: "/about-us",
-    component: PublicHome,
+    component: AboutUs,
     private: false,
+    role: [],
   },
   {
     name: "Feedback",
-    path: "/feedback",
+    path: "feedback",
     component: Feedback,
     private: true,
+    role: ["Admin", "User"],
   },
   {
     name: "Complaint",
-    path: "/complaint",
+    path: "complaint",
     component: Complaint,
     private: true,
+    role: ["Admin", "User"],
   },
   {
     name: "Profile",
-    path: "/profile",
+    path: "profile",
     component: Profile,
     private: true,
+    role: ["Admin", "User"],
   },
   {
     name: "FAQ",
     path: "/faq",
     component: FAQ,
     private: true,
-  }
+    role: [],
+  },
 ];
 const SetDocumentData = ({ children, name }) => {
   useEffect(() => {
@@ -71,51 +83,51 @@ const SetDocumentData = ({ children, name }) => {
   });
   return <Suspense fallback={<label>Loading...</label>}> {children}</Suspense>;
 };
-const Routes = routes.map((item, index) => {
-  return item.private ? (
-    IsAuthenticated && (
-      <Route
-        key={index}
-        path={item.path}
-        exact={item.exact}
-        name={item.name}
-        index={item.path === "/"}
-        element={
-          <SetDocumentData name={item.name}>
-            <item.component />
-          </SetDocumentData>
-        }
-      />
-    )
-  ) : (
-    <Route
-      key={index}
-      path={item.path}
-      exact={item.exact}
-      name={item.name}
-      index={item.path === "/"}
-      element={
-        <SetDocumentData name={item.name}>
-          <item.component />
-        </SetDocumentData>
-      }
-    />
-  );
-});
-
+// const Routes = routes.map((item, index) => {
+//   return item.private ? (
+//     IsAuthenticated && (
+//       <Route
+//         key={index}
+//         path={item.path}
+//         exact={item.exact}
+//         name={item.name}
+//         index={item.path === "/"}
+//         element={
+//           <SetDocumentData name={item.name}>
+//             <item.component />
+//           </SetDocumentData>
+//         }
+//       />
+//     )
+//   ) : (
+//     <Route
+//       key={index}
+//       path={item.path}
+//       exact={item.exact}
+//       name={item.name}
+//       index={item.path === "/"}
+//       element={
+//         <SetDocumentData name={item.name}>
+//           <item.component />
+//         </SetDocumentData>
+//       }
+//     />
+//   );
+// });
 
 export default (
-  <Route element={<FeedPainTheme />}>
-    {Routes}
+  <Route element={<FeedPainTheme />}> 
+    {protectedRoute(routes)}
     <Route
       key={"error"}
       path={"*"}
       name={"Error"}
       element={
         <SetDocumentData name="Error">
-          <PageNotFound/>
+          <PageNotFound />
         </SetDocumentData>
       }
     />
+     
   </Route>
 );

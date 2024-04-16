@@ -1,0 +1,11 @@
+.faq{
+    
+}
+.tab-accordion {
+  margin: 0.625rem 0rem;
+  border-radius: 6px !important;
+  box-shadow: 0px 4px 8px -4px rgba(50, 71, 92, 0.42) !important;
+}
+.tab-accordion::before{
+    display: none;
+}
