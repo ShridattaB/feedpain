@@ -23,10 +23,13 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    localStorage.setItem(
+      "accessToken",
+      data.get("email").includes("admin")
+        ? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiQWRtaW4ifQ.gtK1SEC1PZ2DrLBc27l4d8XubjXd01r4gp_G-f1uTsw"
+        : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiVXNlciJ9.5xzzJaibTrUOuhwxiHu2Jc-WMiACgzzhyCF2jA0ogWU"
+    );
+    navigate("/")
   };
 
   return (
@@ -84,14 +87,6 @@ export default function SignIn() {
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  onClick={() =>
-                  {  localStorage.setItem(
-                      "accessToken",
-                      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlIjoiQWRtaW4ifQ.PiRZSPfsb2SupgR-jZNOJkzab2qz2DMoDc9PXuW9ezk"
-                    )
-                  navigate("/")
-                  }
-                  }
                 >
                   Sign In
                 </Button>

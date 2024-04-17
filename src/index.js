@@ -4,16 +4,16 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes } from "react-router-dom";
 import routes from "./Router/index";
-import AuthProvider from "./hooks/AuthProvider";
+import AuthProvider from "./hooks/AuthProvider"; 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>{routes}</Routes>
-      </AuthProvider>
-    </BrowserRouter>
+  <React.StrictMode> 
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes>{routes}</Routes>
+        </AuthProvider>
+      </BrowserRouter> 
   </React.StrictMode>
 );
 

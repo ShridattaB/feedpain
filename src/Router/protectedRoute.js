@@ -5,7 +5,7 @@ export default (routes = []) => {
   const user = [];
   const admin = [];
   const route = [];
-  const userRole =getUserRole();
+  const userRole = getUserRole();
   routes.map((rou) => {
     if (!rou.role.length) route.push(rou);
     if (userRole === "Admin" && rou.role.includes("Admin")) admin.push(rou);
@@ -13,84 +13,86 @@ export default (routes = []) => {
   });
   let userRoute = [];
   let temp = [];
-  if (userRole === "User")
-    user.map((item, index) =>
-      temp.push(
-        <Route
-          key={index}
-          path={item.path}
-          exact={item.exact}
-          name={item.name}
-          index={item.path === "/"}
-          element={
-            <SetDocumentData name={item.name}>
-              <item.component />
-            </SetDocumentData>
-          }
-        />
-      )
-    );
-  else if (userRole === "Admin")
-    admin.map((item, index) =>
-      temp.push(
-        <Route
-          key={index}
-          path={item.path}
-          exact={item.exact}
-          name={item.name}
-          index={item.path === "/"}
-          element={
-            <SetDocumentData name={item.name}>
-              <item.component />
-            </SetDocumentData>
-          }
-        />
-      )
-    );
-  else
-    route.map((item, index) =>
+  switch (userRole) {
+    case "Admin":
+      user.map((item, index) =>
+        temp.push(
+          <Route
+            key={index}
+            path={item.path}
+            exact={item.exact}
+            name={item.name}
+            index={item.path === "/"}
+            element={
+              <SetDocumentData name={item.name}>
+                <item.component />
+              </SetDocumentData>
+            }
+          />
+        )
+      ); 
       userRoute.push(
         <Route
-          key={index}
-          path={item.path}
-          exact={item.exact}
-          name={item.name}
-          index={item.path === "/"}
-          element={
-            <SetDocumentData name={item.name}>
-              <item.component />
-            </SetDocumentData>
-          }
-        />
-      )
-    );
+          key={"admin"}
+          path={"/admin"}
+          exact={true}
+          name={"user root"}
+          index={false}
+          element={<Outlet />}
+        >
+          {temp}
+        </Route>
+      ); 
+      break;
+    case "User":
+      user.map((item, index) =>
+        temp.push(
+          <Route
+            key={index}
+            path={item.path}
+            exact={item.exact}
+            name={item.name}
+            index={item.path === "/"}
+            element={
+              <SetDocumentData name={item.name}>
+                <item.component />
+              </SetDocumentData>
+            }
+          />
+        )
+      ); 
+      userRoute.push(
+        <Route
+          key={"user"}
+          path={"/user"}
+          exact={true}
+          name={"user root"}
+          index={false}
+          element={<Outlet />}
+        >
+          {temp}
+        </Route>
+      ); 
+      break;
 
-  if (userRole === "User")
-    userRoute.push(
-      <Route
-        key={"user"}
-        path={"/user"}
-        exact={true}
-        name={"user root"}
-        index={false}
-        element={<Outlet />}
-      >
-        {temp}
-      </Route>
-    );
-  else if (userRole === "Admin")
-    userRoute.push(
-      <Route
-        key={"admin"}
-        path={"/admin"}
-        exact={true}
-        name={"admin root"}
-        index={false}
-        element={<Outlet />}
-      >
-        {temp}
-      </Route>
-    );
-     console.log(userRoute)
+    default:
+      route.map((item, index) =>
+        userRoute.push(
+          <Route
+            key={index}
+            path={item.path}
+            exact={item.exact}
+            name={item.name}
+            index={item.path === "/"}
+            element={
+              <SetDocumentData name={item.name}>
+                <item.component />
+              </SetDocumentData>
+            }
+          />
+        )
+      );
+      break;
+  } 
   return userRoute;
 };

@@ -14,6 +14,7 @@ import PageNotFound from "../Components/Pages/Error/PageNotFound";
 import FAQ from "../Components/Pages/FAQ/FAQ";
 import AboutUs from "../Components/Pages/About/AboutUs";
 import { getUserRole } from "../Utils";
+import UserList from "../Components/Pages/Private/Admin/UserList/UserList";
 const authenticated = isAuthenticated();
 const userRole=getUserRole()
 const routes = [
@@ -74,6 +75,13 @@ const routes = [
     private: true,
     role: [],
   },
+  {
+    name: "User List",
+    path: "admin/user-list",
+    component: UserList,
+    private: true,
+    role: ["Admin"],
+  },
 ];
 const SetDocumentData = ({ children, name }) => {
   useEffect(() => {
@@ -82,39 +90,7 @@ const SetDocumentData = ({ children, name }) => {
     document.title = `FeedPain | ${name}`;
   });
   return <Suspense fallback={<label>Loading...</label>}> {children}</Suspense>;
-};
-// const Routes = routes.map((item, index) => {
-//   return item.private ? (
-//     IsAuthenticated && (
-//       <Route
-//         key={index}
-//         path={item.path}
-//         exact={item.exact}
-//         name={item.name}
-//         index={item.path === "/"}
-//         element={
-//           <SetDocumentData name={item.name}>
-//             <item.component />
-//           </SetDocumentData>
-//         }
-//       />
-//     )
-//   ) : (
-//     <Route
-//       key={index}
-//       path={item.path}
-//       exact={item.exact}
-//       name={item.name}
-//       index={item.path === "/"}
-//       element={
-//         <SetDocumentData name={item.name}>
-//           <item.component />
-//         </SetDocumentData>
-//       }
-//     />
-//   );
-// });
-
+}; 
 export default (
   <Route element={<FeedPainTheme />}> 
     {protectedRoute(routes)}

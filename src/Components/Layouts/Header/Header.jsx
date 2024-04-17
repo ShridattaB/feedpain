@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 import "./header.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,8 +12,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import ToggleColorMode from "./ToggleColorMode";
-import { useNavigate } from "react-router-dom";
-import rightMenu, { leftMenu } from "./menuList"; 
+import { useLocation, useNavigate } from "react-router-dom";
+import { user, admin, visitor } from "./menuList";
+import { getUserRole } from "./../../../Utils/index";
+import { IconButton } from "@mui/material";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 const logoStyle = {
   width: "140px",
   height: "auto",
@@ -22,7 +25,8 @@ const logoStyle = {
 
 export default function Header({ mode, toggleColorMode }) {
   const [open, setOpen] = React.useState(false);
-
+  const [menu, setMenu] = useState(visitor);
+  const location = useLocation();
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -30,6 +34,20 @@ export default function Header({ mode, toggleColorMode }) {
   const redirectTo = (path) => {
     navigate(path);
   };
+  const userRole = getUserRole();
+  useEffect(() => {
+    switch (userRole) {
+      case "Admin":
+        setMenu(admin);
+        break;
+      case "User":
+        setMenu(user);
+        break;
+      default:
+        setMenu(visitor);
+        break;
+    }
+  }, [localStorage.getItem("accessToken")]);
   return (
     <div>
       <AppBar
@@ -81,8 +99,9 @@ export default function Header({ mode, toggleColorMode }) {
                 alt="logo of sitemark"
               />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                {rightMenu.map((menu) => (
+                {menu.right.map((menu) => (
                   <MenuItem
+                    selected={location.pathname.replace("/", "") === menu.path}
                     onClick={() => redirectTo(menu.path)}
                     sx={{ py: "6px", px: "12px" }}
                   >
@@ -100,18 +119,34 @@ export default function Header({ mode, toggleColorMode }) {
                 alignItems: "center",
               }}
             >
-              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-              {leftMenu.map((menu) => (
-                <Button
-                  color="primary"
-                  variant="text"
-                  size="small"
-                  onClick={(e) => redirectTo(menu.path)}
+              {/* <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} /> */}
+              {menu.left.map((menu) => (
+                <MenuItem
+                  onClick={() => redirectTo(menu.path)}
+                  selected={location.pathname.replace("/", "") === menu.path}
+                  sx={{ py: "6px", px: "12px" }}
                 >
-                  {menu.title}
-                </Button>
+                  <Typography variant="body2" color="text.primary">
+                    {menu.title}
+                  </Typography>
+                </MenuItem>
               ))}
+              {userRole && (
+                <MenuItem
+                  sx={{ py: "6px", px: "12px" }}
+                  selected={location.pathname.replace("/", "") === menu.path}
+                  onClick={(e) => {
+                    localStorage.clear();
+                    redirectTo("/");
+                  }}
+                >
+                  <Typography variant="body2" color="text.primary">
+                    <PowerSettingsNewIcon />
+                  </Typography>
+                </MenuItem>
+              )}
             </Box>
+            {/* Mobile */}
             <Box sx={{ display: { sm: "", md: "none" } }}>
               <Button
                 variant="text"
@@ -144,18 +179,16 @@ export default function Header({ mode, toggleColorMode }) {
                       toggleColorMode={toggleColorMode}
                     />
                   </Box>
-                  {rightMenu.map((menu) => (
+                  {menu.right.map((menu) => (
                     <MenuItem onClick={(e) => redirectTo(menu.path)}>
                       {menu.title}
                     </MenuItem>
                   ))}
 
                   <Divider />
-                  {leftMenu.map((menu) => (
+                  {menu.left.map((menu) => (
                     <MenuItem>
                       <Button
-                        color="primary"
-                        variant="contained"
                         sx={{ width: "100%" }}
                         onClick={(e) => redirectTo(menu.path)}
                       >
@@ -163,6 +196,20 @@ export default function Header({ mode, toggleColorMode }) {
                       </Button>
                     </MenuItem>
                   ))}
+
+                  {userRole && (
+                    <MenuItem>
+                      <Button
+                        sx={{ width: "100%" }}
+                        onClick={(e) => {
+                          localStorage.clear();
+                          redirectTo("/");
+                        }}
+                      >
+                        <PowerSettingsNewIcon />{" "}
+                      </Button>
+                    </MenuItem>
+                  )}
                 </Box>
               </Drawer>
             </Box>
