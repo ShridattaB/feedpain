@@ -13,9 +13,10 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import ToggleColorMode from "./ToggleColorMode";
 import { useLocation, useNavigate } from "react-router-dom";
-import { user as userMenu, admin, visitor } from "./menuList"; 
+import { user as userMenu, admin, visitor } from "./menuList";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { useAuth } from "../../../hooks/useAuth";
+import MainLogo from "../../SVGS/MainLogo";
 const logoStyle = {
   width: "140px",
   height: "auto",
@@ -26,7 +27,7 @@ export default function Header({ mode, toggleColorMode }) {
   const [open, setOpen] = React.useState(false);
   const [menu, setMenu] = useState(visitor);
   const location = useLocation();
-  const { logout,user } = useAuth();
+  const { logout, user } = useAuth();
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -35,13 +36,12 @@ export default function Header({ mode, toggleColorMode }) {
     navigate(path);
   };
   const userRole = user.role;
-  useEffect(() => { 
+  useEffect(() => {
     switch (userRole) {
       case "Admin":
         setMenu(admin);
         break;
-      case "User":
-        console.log(userRole,userMenu,"nik")
+      case "User": 
         setMenu(userMenu);
         break;
       default:
@@ -92,13 +92,7 @@ export default function Header({ mode, toggleColorMode }) {
                 px: 0,
               }}
             >
-              <img
-                src={
-                  "https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg"
-                }
-                style={logoStyle}
-                alt="logo of sitemark"
-              />
+              <MainLogo />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 {menu.right.map((menu) => (
                   <MenuItem

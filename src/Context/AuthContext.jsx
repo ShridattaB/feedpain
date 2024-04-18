@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
-import { Routes, useNavigate } from "react-router-dom";
+import { Routes, useLocation, useNavigate } from "react-router-dom";
 import { getRoutes } from "../Router";
 import { routeList } from "../Router/routeList";
 import { getUserData } from "../Utils";
@@ -17,10 +17,9 @@ const AuthContext = createContext(defaultProvider);
 function AuthProvider() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
-  const [routes, setRoutes] = useState(
-    routeList.filter((route) => !route.role.length)
-  );
+  const [routes, setRoutes] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const handleLogin = (data) => {
     setLoading(true);
     if (data.get("email").includes("admin")) {
@@ -36,28 +35,34 @@ function AuthProvider() {
       );
       setUser(getUserData());
     }
-     
   };
   const handleLogout = () => {
     localStorage.clear();
     setUser({});
-    navigate('/');
+    navigate("/");
   };
   useEffect(() => {
     if (user.role) {
       const route = routeList.filter((route) => route.role.includes(user.role));
       setRoutes(route);
-      navigate(user.role?`${user.role.toLowerCase()}/home`:'/');
+      navigate(user.role ? `${user.role.toLowerCase()}/home` : "/");
     } else {
+      const token = localStorage.getItem("accessToken");
+
+      if (token) {
+        setUser(getUserData());
+        return;
+      }
       const route = routeList.filter((route) => !route.role.length);
       setRoutes(route);
     }
     return () => {};
-  }, [user.role]);
+  }, [user]);
 
   useEffect(() => {
     setLoading(false);
   }, [routes]);
+
   const value = {
     user,
     loading,
@@ -69,7 +74,7 @@ function AuthProvider() {
 
   return (
     <AuthContext.Provider value={value}>
-      <Routes>{!loading && getRoutes(routes, user.role)}</Routes>
+      {<Routes>{!loading && getRoutes(routes, user.role)}</Routes>}
     </AuthContext.Provider>
   );
 }

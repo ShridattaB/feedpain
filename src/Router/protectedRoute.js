@@ -1,7 +1,7 @@
 import { Outlet, Route } from "react-router-dom";
 import SetDocumentData from "./SetDocumentData";
 export default (routes, role) => {
-  const loverRole = role?.toLocaleLowerCase();
+  const loverRole = role?.toLocaleLowerCase(); 
   if (role)
     return (
       <Route
