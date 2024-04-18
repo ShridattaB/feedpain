@@ -36,16 +36,18 @@ function AuthProvider() {
       );
       setUser(getUserData());
     }
-    navigate("/");
+     
   };
   const handleLogout = () => {
     localStorage.clear();
     setUser({});
+    navigate('/');
   };
   useEffect(() => {
     if (user.role) {
       const route = routeList.filter((route) => route.role.includes(user.role));
       setRoutes(route);
+      navigate(user.role?`${user.role.toLowerCase()}/home`:'/');
     } else {
       const route = routeList.filter((route) => !route.role.length);
       setRoutes(route);

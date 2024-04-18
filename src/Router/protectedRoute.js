@@ -16,16 +16,13 @@ export default (routes, role) => {
           <Route
             key={index}
             path={
-              item.path === `${loverRole}` ? item.path + `/home` : item.path
+              (item.path === `${loverRole}`) ? item.path + `/home` : item.path
             }
             exact={item.exact}
             name={item.name}
             index={item.path === "/"}
             element={
-              <SetDocumentData name={item.name}>
-                {console.log(
-                   item.path === `${loverRole}`, item.path + `/home`, loverRole,item.path,item.component
-                )}
+              <SetDocumentData name={item.name}> 
                 <item.component />
               </SetDocumentData>
             }

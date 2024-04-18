@@ -20,7 +20,7 @@ export const routeList = [
   },
   {
     name: "Landing",
-    path: `admin`,
+    path: `home`,
     exact: true,
     component: AdminHome,
     private: true,
@@ -28,7 +28,7 @@ export const routeList = [
   },
   {
     name: "Landing",
-    path: `/`,
+    path: `home`,
     exact: true,
     component: Private,
     private: true,

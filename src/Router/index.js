@@ -11,7 +11,7 @@ const SetDocumentData = ({ children, name }) => {
   });
   return <Suspense fallback={<label>Loading...</label>}> {children}</Suspense>;
 };
-export function getRoutes(routes,role) { 
+export function getRoutes(routes,role) {  
   return (
     <Route element={<FeedPainTheme />}>
       {protectedRoute(routes,role)}

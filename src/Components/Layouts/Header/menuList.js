@@ -12,7 +12,7 @@ export const user = {
 };
 export const admin = {
   right: [
-    { title: "Home", path: "admin/home", icon: "" },
+    { title: "Home", path: "/admin/home", icon: "" },
     {
       title: "Feedback",
       path: "admin/feedback",
