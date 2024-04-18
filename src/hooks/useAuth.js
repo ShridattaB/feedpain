@@ -1,24 +1,4 @@
-const token = await getToken();
+import { useContext } from 'react' 
+import {AuthContext} from '../Context/AuthContext'
 
-const useAuth = () => {
-  const [user, setUser] = (useState < user) | (null > null);
-
-  useEffect(() => {
-    if (token) {
-      const isTokenValid = checkTokenValidity(token);
-      const userData = isTokenValid ? decodeToken(token) : null;
-
-      if (isTokenValid) {
-        setUser(userData);
-      } else {
-        setUser(null);
-
-        removeCookie("token");
-      }
-    } else {
-      setUser(null);
-    }
-  }, []);
-
-  return { user };
-};
+export const useAuth = () => useContext(AuthContext)

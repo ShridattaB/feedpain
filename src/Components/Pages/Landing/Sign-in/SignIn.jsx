@@ -13,23 +13,19 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import {useAuth} from "../../../../hooks/useAuth";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const navigate = useNavigate();
+  const { login } = useAuth(); 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    localStorage.setItem(
-      "accessToken",
-      data.get("email").includes("admin")
-        ? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiQWRtaW4ifQ.gtK1SEC1PZ2DrLBc27l4d8XubjXd01r4gp_G-f1uTsw"
-        : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiVXNlciJ9.5xzzJaibTrUOuhwxiHu2Jc-WMiACgzzhyCF2jA0ogWU"
-    );
-    navigate("/")
+    login(data)
+ 
   };
 
   return (

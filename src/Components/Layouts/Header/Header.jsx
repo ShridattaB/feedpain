@@ -13,10 +13,9 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import ToggleColorMode from "./ToggleColorMode";
 import { useLocation, useNavigate } from "react-router-dom";
-import { user, admin, visitor } from "./menuList";
-import { getUserRole } from "./../../../Utils/index";
-import { IconButton } from "@mui/material";
+import { user as userMenu, admin, visitor } from "./menuList"; 
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import { useAuth } from "../../../hooks/useAuth";
 const logoStyle = {
   width: "140px",
   height: "auto",
@@ -27,6 +26,7 @@ export default function Header({ mode, toggleColorMode }) {
   const [open, setOpen] = React.useState(false);
   const [menu, setMenu] = useState(visitor);
   const location = useLocation();
+  const { logout,user } = useAuth();
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -34,20 +34,21 @@ export default function Header({ mode, toggleColorMode }) {
   const redirectTo = (path) => {
     navigate(path);
   };
-  const userRole = getUserRole();
-  useEffect(() => {
+  const userRole = user.role;
+  useEffect(() => { 
     switch (userRole) {
       case "Admin":
         setMenu(admin);
         break;
       case "User":
-        setMenu(user);
+        console.log(userRole,userMenu,"nik")
+        setMenu(userMenu);
         break;
       default:
         setMenu(visitor);
         break;
     }
-  }, [localStorage.getItem("accessToken")]);
+  }, [user]);
   return (
     <div>
       <AppBar
@@ -135,10 +136,7 @@ export default function Header({ mode, toggleColorMode }) {
                 <MenuItem
                   sx={{ py: "6px", px: "12px" }}
                   selected={location.pathname.replace("/", "") === menu.path}
-                  onClick={(e) => {
-                    localStorage.clear();
-                    redirectTo("/");
-                  }}
+                  onClick={(e) => logout()}
                 >
                   <Typography variant="body2" color="text.primary">
                     <PowerSettingsNewIcon />
@@ -199,13 +197,7 @@ export default function Header({ mode, toggleColorMode }) {
 
                   {userRole && (
                     <MenuItem>
-                      <Button
-                        sx={{ width: "100%" }}
-                        onClick={(e) => {
-                          localStorage.clear();
-                          redirectTo("/");
-                        }}
-                      >
+                      <Button sx={{ width: "100%" }} onClick={(e) => logout()}>
                         <PowerSettingsNewIcon />{" "}
                       </Button>
                     </MenuItem>

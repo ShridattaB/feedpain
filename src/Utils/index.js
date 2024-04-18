@@ -32,10 +32,10 @@ export const getChartData = () => {
   return data;
 };
 
-export const getUserRole = () => {
-  return parseJwt()?.role;
+export const getUserData = () => {
+  return parseJwt();
 };
-function parseJwt() {
+export function parseJwt() {
   try {
     const token = localStorage.getItem("accessToken");
     if (!token) return null;

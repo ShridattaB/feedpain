@@ -2,18 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Routes } from "react-router-dom";
-import routes from "./Router/index";
-import AuthProvider from "./hooks/AuthProvider"; 
+
+import App from "./Components/Pages/App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode> 
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>{routes}</Routes>
-        </AuthProvider>
-      </BrowserRouter> 
+     <App/>
   </React.StrictMode>
 );
 
