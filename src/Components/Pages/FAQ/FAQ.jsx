@@ -223,7 +223,7 @@ const FAQ = () => {
             width: "100%",
             boxShadow: 0,
             backgroundColor: "transparent",
-            mr:[0,0,2]
+            mr: [0, 0, 2],
           }}
         >
           <Box key={tab.id}>
@@ -288,7 +288,7 @@ const FAQ = () => {
   };
 
   return (
-    <MuiBox className="faq" style={{ marginTop: "14px" }}>
+    <MuiBox className="faq" style={{ marginTop: "14px", height: "100%" }}>
       <TabContext value={activeTab}>
         <Box
           sx={{
@@ -299,7 +299,14 @@ const FAQ = () => {
             flexDirection: "column",
           }}
         >
-          <TabList onChange={handleChange}>{renderTabs()}</TabList>
+          <TabList
+            onChange={handleChange}
+            style={{
+              height: "100%",
+            }}
+          >
+            {renderTabs()}
+          </TabList>
           <Box
             sx={{
               mt: 9,
