@@ -4,8 +4,8 @@ import React from "react";
 export default function InputText(props) {
   return (
     <TextField
-      size="small"
-     {...props}
+      size="small" 
+     {...props} 
     />
   );
 }

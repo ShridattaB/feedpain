@@ -2,6 +2,8 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import CustomStepper from "../../../stepper/CustomStepper";
 import InputText from "../../../Form/InputText/InputText";
+import { Button, Typography } from "@mui/material";
+import ImageInput from "../../../Form/ImageInput/ImageInput";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -29,62 +31,78 @@ export default function SignUp() {
     },
   ];
   const data = [
-    <Grid container justifyContent={"center"}  alignItems="center" spacing={2}>
-      <Grid item xs={8}>
-        <InputText
-          autoComplete="given-name"
-          name="firstName"
-          required
-          id="firstName"
-          label="First Name"
-          autoFocus 
-          sx={{ mt: 2}}
-        />
-      </Grid>
-      <Grid item xs={8}>
-        <InputText
-          required
-          id="lastName"
-          label="Last Name"
-          name="lastName"
-          autoComplete="family-name" 
-        />
-      </Grid>
-      <Grid item xs={8}>
-        <InputText
-          required
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-        />
-      </Grid>
-      <Grid item xs="8">
-        <InputText
-          required
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="new-password"
-        />
-      </Grid>
-    </Grid>,
-    <></>,
+    <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "14px",
+        }}
+      >
+        <ImageInput />
+      </div>
+      <InputText
+        autoComplete="given-name"
+        name="firstName"
+        required
+        id="firstName"
+        label="First Name"
+        autoFocus
+      />
+      <InputText
+        required
+        id="lastName"
+        label="Last Name"
+        name="lastName"
+        autoComplete="family-name"
+      />
+      <InputText
+        required
+        id="course"
+        label="Course Name and Year"
+        name="course"
+      />
+      <InputText
+        required
+        id="email"
+        label="Email Address"
+        name="email"
+        autoComplete="email"
+      />
+    </>,
+    <>
+      <InputText name="country" id="country" label="Country" sx={{ mt: 2 }} />
+      <InputText name="state" id="state" label="State" sx={{ mt: 2 }} />
+      <InputText name="city" id="city" label="City" sx={{ mt: 2 }} />
+      <InputText name="mobile_no" id="mobile_no" label="Mobile No" />
+      <InputText name="password" id="password" label="Password" />
+      <InputText name="rePassword" id="rePassword" label="Re Enter Password" />
+    </>,
+    <>
+      <Typography sx={{mt:"40px",mb:"20px"}} >We have sent you an OTP over mail 
+          please use that for verification.</Typography>
+      <InputText name="otp" id="otp" label="OTP" />{" "}
+    </>,
   ];
 
   return (
     <Grid
       container
-      spacing={4}
       height={"100%"}
       alignItems={"center"}
       justifyContent={"space-around"}
       className="sign-in"
     >
       <Grid item sm={4}></Grid>
-      <Grid item sm={6}>
-        <CustomStepper stepperData={{ steps, data }} />
+      <Grid item sm={6} style={{ minHeight: "384px" }}>
+        <CustomStepper
+          stepperData={{
+            steps,
+            data,
+            action: <Button>Submit</Button>,
+            title: "Sign Up",
+          }}
+        />
       </Grid>
     </Grid>
   );

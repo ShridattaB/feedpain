@@ -1,0 +1,9 @@
+.content {
+  margin: 10px;
+  min-height: 214px;
+}
+@media only screen and (max-width: 684px) {
+    .content {
+        min-height: 336px;
+    }  
+}
