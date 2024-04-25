@@ -3,6 +3,7 @@ import { Routes, useLocation, useNavigate } from "react-router-dom";
 import { getRoutes } from "../Router";
 import { routeList } from "../Router/routeList";
 import { getUserData } from "../Utils";
+import axios from "axios";
 
 // ** Defaults
 const defaultProvider = {
@@ -21,20 +22,24 @@ function AuthProvider() {
   const navigate = useNavigate();
   const location = useLocation();
   const handleLogin = (data) => {
-    setLoading(true);
-    if (data.get("email").includes("admin")) {
-      localStorage.setItem(
-        "accessToken",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiQWRtaW4ifQ.gtK1SEC1PZ2DrLBc27l4d8XubjXd01r4gp_G-f1uTsw"
-      );
-      setUser(getUserData());
-    } else {
-      localStorage.setItem(
-        "accessToken",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiVXNlciJ9.5xzzJaibTrUOuhwxiHu2Jc-WMiACgzzhyCF2jA0ogWU"
-      );
-      setUser(getUserData());
-    }
+    setLoading(true); 
+      axios.post("/role/save",{email:data.get("email"),password:data.get("password")}).then(respoce=>{
+
+      }).catch((error)=>{
+        
+      })
+      // localStorage.setItem(
+      //   "accessToken",
+      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiQWRtaW4ifQ.gtK1SEC1PZ2DrLBc27l4d8XubjXd01r4gp_G-f1uTsw"
+      // );
+      // setUser(getUserData());
+    // } else {
+    //   localStorage.setItem(
+    //     "accessToken",
+    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiVXNlciJ9.5xzzJaibTrUOuhwxiHu2Jc-WMiACgzzhyCF2jA0ogWU"
+    //   );
+    //   setUser(getUserData());
+    // }
   };
   const handleLogout = () => {
     localStorage.clear();

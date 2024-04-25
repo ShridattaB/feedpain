@@ -9,12 +9,12 @@ import {
   styled,
 } from "@mui/material";
 
-import React, { useState } from "react";
-import "./CustomStepper.css"
-export default function CustomStepper({ stepperData }) {
-  const { steps, data, action, title } = stepperData;
+import React, { useRef, useState } from "react";
+import "./CustomStepper.css";
+export default function CustomStepper({ stepperData, handleSubmit }) {
+  const { steps, data,  title } = stepperData;
   const [step, setStep] = useState(0);
-
+  const formRef = useRef(null);
   const renderContent = () => {
     return (
       <Box
@@ -22,14 +22,13 @@ export default function CustomStepper({ stepperData }) {
           "& .MuiTextField-root": { m: 1, width: "25ch" },
           alignItems: "center",
           textAlign: "center",
-          height:"100%"
+          height: "100%",
         }}
       >
         {data[step]}
       </Box>
     );
   };
- 
 
   const totalSteps = steps.length - 1;
   return (
@@ -38,6 +37,9 @@ export default function CustomStepper({ stepperData }) {
       flexDirection={"column"}
       justifyContent={"center"}
       alignItems={"center"}
+      component="form" 
+      noValidate
+      ref={formRef}
     >
       <Typography
         variant="h5"
@@ -64,11 +66,14 @@ export default function CustomStepper({ stepperData }) {
           {step > 0 && <Button onClick={(e) => setStep(step - 1)}>Back</Button>}
         </Grid>
         <Grid item>
-          {totalSteps === step ? (
-            action
-          ) : (
-            <Button onClick={(e) => setStep(step + 1)}>Next</Button>
-          )}
+          <Button
+            onClick={(e) => {
+              
+              if (handleSubmit(formRef, step + 1) && totalSteps !== step) setStep(step + 1);
+            }}
+          >
+            {totalSteps === step ? "Submit" : "Next"}
+          </Button>
         </Grid>
       </Grid>
     </Box>

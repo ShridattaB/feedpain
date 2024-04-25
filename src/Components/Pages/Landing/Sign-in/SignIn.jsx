@@ -1,30 +1,43 @@
-import * as React from "react";  
-import Button from "@mui/material/Button"; 
+import * as React from "react";
+import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box"; 
-import Typography from "@mui/material/Typography"; 
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
 import { useAuth } from "../../../../hooks/useAuth";
 import InputText from "../../../Form/InputText/InputText";
+import validation from "../validation";
+import { isEmpty } from "../../../../Utils";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const [error, setError] = React.useState({});
   const { login } = useAuth();
   const handleSubmit = (event) => {
     event.preventDefault();
+    setError({});
     const data = new FormData(event.currentTarget);
-    login(data);
+    const err=validation(data) 
+    setError(err);
+    if(isEmpty(err))
+    login(data)
   };
+ 
 
   return (
-    <Grid container spacing={4} height={"100%"} alignItems={"center"} justifyContent={"space-around"} className="sign-in">
-      <Grid item sm={4} >
-         
-      </Grid>
+    <Grid
+      container
+      spacing={4}
+      height={"100%"}
+      alignItems={"center"}
+      justifyContent={"space-around"}
+      className="sign-in"
+    >
+      <Grid item sm={4}></Grid>
       <Grid item sm={4}>
         <Box
           sx={{
@@ -51,6 +64,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              error={error.email}
+              helperText={error.email} 
             />
             <InputText
               margin="normal"
@@ -61,8 +76,10 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={error.password}
+              helperText={error.password} 
             />
-             
+
             <Button
               type="submit"
               fullWidth
