@@ -6,12 +6,37 @@ import { Typography } from "@mui/material";
 import ImageInput from "../../../Form/ImageInput/ImageInput";
 import { signUpStep1, signUpStep2, signUpStep3 } from "../validation";
 import { isEmpty } from "../../../../Utils";
+import CustomSelect from "../../../Select/CustomSelect";
+import { getCourseList,getCountryList,getStateList,getCityList } from "../apiCall";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignUp() {
   const [error, setError] = React.useState({});
   const [userData, setUserData] = React.useState({});
+  const [options, setOptions] = React.useState({course:[],country:[],state:[],city:[]});
+  React.useEffect(() => {
+    if(!options.course.length)
+    getCourseList().then((response) => {
+      if(response.status==="Success")
+      setOptions({...options,course:response.data})
+    });
+     if(!options.country.length)
+    getCountryList().then((response) => {
+      if(response.status==="Success")
+      setOptions({...options,country:response.data})
+    });
+     if(!options.state.length)
+    getStateList().then((response) => {
+      if(response.status==="Success")
+      setOptions({...options,state:response.data})
+    });
+     if(!options.city.length)
+    getCityList().then((response) => {
+      if(response.status==="Success")
+      setOptions({...options,city:response.data})
+    });
+  }, []);
   const steps = [
     {
       title: "Your Info",
@@ -62,11 +87,13 @@ export default function SignUp() {
         error={!!error.lastName}
         helperText={error.lastName}
       />
-      <InputText
+      <CustomSelect
         id="course"
         label="Course Name and Year"
         name="course"
-        defaultValue={userData.course}
+        titleLabel={["name","year"]}
+        options={options.course}
+        selected={userData.course}
         error={!!error.course}
         helperText={error.course}
       />
@@ -80,7 +107,7 @@ export default function SignUp() {
       />
     </>,
     <>
-      <InputText
+      <CustomSelect
         name="country"
         id="country"
         label="Country"
@@ -88,24 +115,31 @@ export default function SignUp() {
         defaultValue={userData.country}
         error={!!error.country}
         helperText={error.country}
+        titleLabel={["name"]}
+        options={options.country}
+        selected={userData.country} 
       />
-      <InputText
+      <CustomSelect
         name="state"
         id="state"
         label="State"
-        sx={{ mt: 2 }}
-        defaultValue={userData.state}
+        sx={{ mt: 2 }} 
         error={!!error.state}
         helperText={error.state}
+        titleLabel={["name"]}
+        options={options.state}
+        selected={userData.state} 
       />
-      <InputText
+      <CustomSelect
         name="city"
         id="city"
         label="City"
-        sx={{ mt: 2 }}
-        defaultValue={userData.city}
+        sx={{ mt: 2 }} 
         error={!!error.city}
         helperText={error.city}
+        titleLabel={["name"]}
+        options={options.state}
+        selected={userData.city} 
       />
       <InputText
         name="mobileNo"
@@ -192,6 +226,7 @@ export default function SignUp() {
       justifyContent={"space-around"}
       className="sign-in"
     >
+      {console.log(options)}
       <Grid item sm={6} style={{ minHeight: "384px" }}>
         <CustomStepper
           stepperData={{
