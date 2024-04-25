@@ -21,12 +21,10 @@ export default function SignIn() {
     event.preventDefault();
     setError({});
     const data = new FormData(event.currentTarget);
-    const err=validation(data) 
+    const err = validation(data);
     setError(err);
-    if(isEmpty(err))
-    login(data)
+    if (isEmpty(err)) login(data);
   };
- 
 
   return (
     <Grid
@@ -37,7 +35,9 @@ export default function SignIn() {
       justifyContent={"space-around"}
       className="sign-in"
     >
-      <Grid item sm={4}></Grid>
+      <Grid item sm={4}>
+        <img width="100%" src="/images/login-amico.png" />
+      </Grid>
       <Grid item sm={4}>
         <Box
           sx={{
@@ -65,7 +65,7 @@ export default function SignIn() {
               autoComplete="email"
               autoFocus
               error={error.email}
-              helperText={error.email} 
+              helperText={error.email}
             />
             <InputText
               margin="normal"
@@ -77,7 +77,7 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
               error={error.password}
-              helperText={error.password} 
+              helperText={error.password}
             />
 
             <Button

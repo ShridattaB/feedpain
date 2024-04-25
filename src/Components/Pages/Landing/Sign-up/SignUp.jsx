@@ -2,7 +2,7 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import CustomStepper from "../../../stepper/CustomStepper";
 import InputText from "../../../Form/InputText/InputText";
-import {  Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import ImageInput from "../../../Form/ImageInput/ImageInput";
 import { signUpStep1, signUpStep2, signUpStep3 } from "../validation";
 import { isEmpty } from "../../../../Utils";
@@ -148,22 +148,19 @@ export default function SignUp() {
       />
     </>,
   ];
-  const sendOtpApiCall=()=>{
-
-  }
-  const verifyOtpApiCall=()=>{
+  const sendOtpApiCall = () => {};
+  const verifyOtpApiCall = () => {
     //uploadImage
     //registration
-    
-  } 
-  
+  };
+
   const handleSubmit = (ref, step) => {
     if (!ref) return;
     const formData = new FormData(ref.current);
     let validatedData;
     switch (step) {
       case 1:
-        validatedData = signUpStep1(formData,userData.profileUrl);
+        validatedData = signUpStep1(formData, userData.profileUrl);
         break;
       case 2:
         validatedData = signUpStep2(formData);
@@ -175,15 +172,13 @@ export default function SignUp() {
 
     let { err, data } = validatedData;
     setError(err);
-    if (isEmpty(err)) { 
+    if (isEmpty(err)) {
       setUserData({ ...userData, ...data });
-      if(step===2)
-      {
-        sendOtpApiCall(userData.email)
+      if (step === 2) {
+        sendOtpApiCall(userData.email);
       }
-      if(step===3)
-      {
-        verifyOtpApiCall()
+      if (step === 3) {
+        verifyOtpApiCall();
       }
       return true;
     }
@@ -197,7 +192,6 @@ export default function SignUp() {
       justifyContent={"space-around"}
       className="sign-in"
     >
-      <Grid item sm={4}></Grid>
       <Grid item sm={6} style={{ minHeight: "384px" }}>
         <CustomStepper
           stepperData={{
@@ -207,6 +201,9 @@ export default function SignUp() {
           }}
           handleSubmit={handleSubmit}
         />
+      </Grid>
+      <Grid item sm={4}>
+        <img src="images/sign-up.png" width={"100%"} />
       </Grid>
     </Grid>
   );
