@@ -1,4 +1,6 @@
 import { Suspense, useEffect } from "react";
+import Loader from "../Components/Pages/Loader/Loader";
+import { useAuth } from "../hooks/useAuth";
 
 export default function SetDocumentData({ children, name }) {
   useEffect(() => {
@@ -6,5 +8,5 @@ export default function SetDocumentData({ children, name }) {
     document.documentElement.scrollTop = 0;
     document.title = `FeedPain | ${name}`;
   });
-  return <Suspense fallback={<label>Loading...</label>}> {children}</Suspense>;
+  return <Suspense fallback={<Loader />}>{children}</Suspense>;
 }

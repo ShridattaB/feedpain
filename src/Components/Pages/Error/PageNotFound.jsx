@@ -33,7 +33,7 @@ export default function PageNotFound() {
         backgroundRepeat: "no-repeat",
         backgroundSize: "contain, cover",
         height: "100%",
-        backgroundPosition:'center'
+        backgroundPosition: "center",
       }}
     >
       <Box
@@ -46,7 +46,7 @@ export default function PageNotFound() {
         }}
         className="error-box"
       >
-        <BoxWrapper sx={{mb:2}}>
+        <BoxWrapper sx={{ mb: 2 }}>
           <Typography variant="h4" sx={{ mb: 2 }}>
             Page Not Found :(
           </Typography>
@@ -57,7 +57,11 @@ export default function PageNotFound() {
             Back to Home
           </Button>
         </BoxWrapper>
-        {/* <Img width='500' alt='error-illustration' src={`/images/pages/page-misc-error-${theme.palette.mode}.png`} /> */}
+        <Img
+          width="500"
+          alt="error-illustration"
+          src={`/images/pages/page-misc-error-${theme.palette.mode}.png`}
+        />
       </Box>
     </Box>
   );

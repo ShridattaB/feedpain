@@ -7,36 +7,46 @@ import ImageInput from "../../../Form/ImageInput/ImageInput";
 import { signUpStep1, signUpStep2, signUpStep3 } from "../validation";
 import { isEmpty } from "../../../../Utils";
 import CustomSelect from "../../../Select/CustomSelect";
-import { getCourseList,getCountryList,getStateList,getCityList } from "../apiCall";
+import {
+  getCourseList,
+  getCountryList,
+  getStateList,
+  getCityList,
+} from "../apiCall";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignUp() {
   const [error, setError] = React.useState({});
   const [userData, setUserData] = React.useState({});
-  const [options, setOptions] = React.useState({course:[],country:[],state:[],city:[]});
+  const [options, setOptions] = React.useState({
+    course: [],
+    country: [],
+    state: [],
+    city: [],
+  });
   React.useEffect(() => {
-    if(!options.course.length)
-    getCourseList().then((response) => {
-      if(response.status==="Success")
-      setOptions({...options,course:response.data})
-    });
-     if(!options.country.length)
-    getCountryList().then((response) => {
-      if(response.status==="Success")
-      setOptions({...options,country:response.data})
-    });
-     if(!options.state.length)
-    getStateList().then((response) => {
-      if(response.status==="Success")
-      setOptions({...options,state:response.data})
-    });
-     if(!options.city.length)
-    getCityList().then((response) => {
-      if(response.status==="Success")
-      setOptions({...options,city:response.data})
-    });
-  }, []);
+    if (!options.course.length)
+      getCourseList().then((response) => {
+        if (response?.status === "Success")
+          setOptions({ ...options, course: response.data });
+      });
+    if (!options.country.length)
+      getCountryList().then((response) => {
+        if (response?.status === "Success")
+          setOptions({ ...options, country: response.data });
+      });
+    if (!options.state.length)
+      getStateList().then((response) => {
+        if (response?.status === "Success")
+          setOptions({ ...options, state: response.data });
+      });
+    if (!options.city.length)
+      getCityList().then((response) => {
+        if (response?.status === "Success")
+          setOptions({ ...options, city: response.data });
+      });
+  }, [options]);
   const steps = [
     {
       title: "Your Info",
@@ -91,7 +101,7 @@ export default function SignUp() {
         id="course"
         label="Course Name and Year"
         name="course"
-        titleLabel={["name","year"]}
+        titleLabel={["name", "year"]}
         options={options.course}
         selected={userData.course}
         error={!!error.course}
@@ -117,29 +127,29 @@ export default function SignUp() {
         helperText={error.country}
         titleLabel={["name"]}
         options={options.country}
-        selected={userData.country} 
+        selected={userData.country}
       />
       <CustomSelect
         name="state"
         id="state"
         label="State"
-        sx={{ mt: 2 }} 
+        sx={{ mt: 2 }}
         error={!!error.state}
         helperText={error.state}
         titleLabel={["name"]}
         options={options.state}
-        selected={userData.state} 
+        selected={userData.state}
       />
       <CustomSelect
         name="city"
         id="city"
         label="City"
-        sx={{ mt: 2 }} 
+        sx={{ mt: 2 }}
         error={!!error.city}
         helperText={error.city}
         titleLabel={["name"]}
         options={options.state}
-        selected={userData.city} 
+        selected={userData.city}
       />
       <InputText
         name="mobileNo"
