@@ -15,7 +15,7 @@ export default function App() {
         else return Promise.reject(error);
       }
     );
-    axios.defaults.baseURL = "http://192.168.1.6:8083";
+    axios.defaults.baseURL = "http://localhost:8083";
   }, []);
   return (
     <BrowserRouter>

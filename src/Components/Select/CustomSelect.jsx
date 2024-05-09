@@ -5,26 +5,25 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import "./customselect.css"
+import "./customselect.css";
 import React from "react";
 
 export default function CustomSelect({
   error,
   options = [],
+  name,
   label,
   selected,
   handleChange = () => {},
   valueLabel = "id",
   titleLabel = [],
-}) {
-  console.log(options);
+}) { 
   return (
     <FormControl className="custom-select">
       <InputLabel
         classes="label"
         id="demo-simple-select-helper-label"
         className="Mui-focused"
-         
       >
         {label}
       </InputLabel>
@@ -33,6 +32,7 @@ export default function CustomSelect({
         id="demo-simple-select-helper"
         value={selected}
         label={label}
+        name={name}
         error={error}
         size="small"
         style={{ margin: "8px", width: "24ch" }}

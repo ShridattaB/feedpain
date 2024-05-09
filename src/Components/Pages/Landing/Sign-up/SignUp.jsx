@@ -12,6 +12,7 @@ import {
   getCountryList,
   getStateList,
   getCityList,
+  sendOTPMailAPICall,
 } from "../apiCall";
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -36,16 +37,6 @@ export default function SignUp() {
         if (response?.status === "Success")
           setOptions({ ...options, country: response.data });
       });
-    if (!options.state.length)
-      getStateList().then((response) => {
-        if (response?.status === "Success")
-          setOptions({ ...options, state: response.data });
-      });
-    if (!options.city.length)
-      getCityList().then((response) => {
-        if (response?.status === "Success")
-          setOptions({ ...options, city: response.data });
-      });
   }, [options]);
   const steps = [
     {
@@ -61,6 +52,25 @@ export default function SignUp() {
       subtitle: "Don't worry we are just validating email",
     },
   ];
+  const handleChange = (e) => { 
+    switch (e.target.name) {
+      case "country": 
+          getStateList(e.target.value).then((response) => {
+            if (response?.status === "Success")
+              setOptions({ ...options, state: response.data });
+          });
+
+        break;
+      case "state": 
+          getCityList(e.target.value).then((response) => { 
+            if (response?.status === "Success")
+              setOptions({ ...options, city: response.data });
+          });
+        break;
+      default:
+        break;
+    }
+  };
   const data = [
     <>
       <div
@@ -128,6 +138,7 @@ export default function SignUp() {
         titleLabel={["name"]}
         options={options.country}
         selected={userData.country}
+        handleChange={handleChange}
       />
       <CustomSelect
         name="state"
@@ -139,6 +150,7 @@ export default function SignUp() {
         titleLabel={["name"]}
         options={options.state}
         selected={userData.state}
+        handleChange={handleChange}
       />
       <CustomSelect
         name="city"
@@ -148,7 +160,7 @@ export default function SignUp() {
         error={!!error.city}
         helperText={error.city}
         titleLabel={["name"]}
-        options={options.state}
+        options={options.city}
         selected={userData.city}
       />
       <InputText
@@ -198,16 +210,17 @@ export default function SignUp() {
     //registration
   };
 
-  const handleSubmit = (ref, step) => {
+  const handleSubmit = async (ref, step) => {
     if (!ref) return;
     const formData = new FormData(ref.current);
     let validatedData;
     switch (step) {
       case 1:
-        validatedData = signUpStep1(formData, userData.profileUrl);
+        validatedData = signUpStep1(formData, userData.profileUrl); 
         break;
       case 2:
-        validatedData = signUpStep2(formData);
+        validatedData = signUpStep2(formData); 
+        await sendOTPMailAPICall({email:userData.email,userName:userData.firstName+" "+userData.lastName})
         break;
       default:
         validatedData = signUpStep3(formData);
@@ -235,8 +248,7 @@ export default function SignUp() {
       alignItems={"center"}
       justifyContent={"space-around"}
       className="sign-in"
-    >
-      {console.log(options)}
+    > 
       <Grid item sm={6} style={{ minHeight: "384px" }}>
         <CustomStepper
           stepperData={{
