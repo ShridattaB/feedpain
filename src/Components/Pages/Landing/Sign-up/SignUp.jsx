@@ -1,19 +1,21 @@
-import * as React from "react";
-import Grid from "@mui/material/Grid";
-import CustomStepper from "../../../stepper/CustomStepper";
-import InputText from "../../../Form/InputText/InputText";
 import { Typography } from "@mui/material";
-import ImageInput from "../../../Form/ImageInput/ImageInput";
-import { signUpStep1, signUpStep2, signUpStep3 } from "../validation";
+import Grid from "@mui/material/Grid";
+import * as React from "react";
+import { toast } from "react-hot-toast";
 import { isEmpty } from "../../../../Utils";
+import ImageInput from "../../../Form/ImageInput/ImageInput";
+import InputText from "../../../Form/InputText/InputText";
 import CustomSelect from "../../../Select/CustomSelect";
+import CustomStepper from "../../../stepper/CustomStepper";
 import {
-  getCourseList,
-  getCountryList,
-  getStateList,
   getCityList,
+  getCountryList,
+  getCourseList,
+  getStateList,
   sendOTPMailAPICall,
+  verifyOtpApiCall,
 } from "../apiCall";
+import { signUpStep1, signUpStep2, signUpStep3 } from "../validation";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -52,20 +54,20 @@ export default function SignUp() {
       subtitle: "Don't worry we are just validating email",
     },
   ];
-  const handleChange = (e) => { 
+  const handleChange = (e) => {
     switch (e.target.name) {
-      case "country": 
-          getStateList(e.target.value).then((response) => {
-            if (response?.status === "Success")
-              setOptions({ ...options, state: response.data });
-          });
+      case "country":
+        getStateList(e.target.value).then((response) => {
+          if (response?.status === "Success")
+            setOptions({ ...options, state: response.data });
+        });
 
         break;
-      case "state": 
-          getCityList(e.target.value).then((response) => { 
-            if (response?.status === "Success")
-              setOptions({ ...options, city: response.data });
-          });
+      case "state":
+        getCityList(e.target.value).then((response) => {
+          if (response?.status === "Success")
+            setOptions({ ...options, city: response.data });
+        });
         break;
       default:
         break;
@@ -204,23 +206,18 @@ export default function SignUp() {
       />
     </>,
   ];
-  const sendOtpApiCall = () => {};
-  const verifyOtpApiCall = () => {
-    //uploadImage
-    //registration
-  };
 
-  const handleSubmit = async (ref, step) => {
+  const handleSubmit = (ref, step) => {
     if (!ref) return;
     const formData = new FormData(ref.current);
     let validatedData;
     switch (step) {
       case 1:
-        validatedData = signUpStep1(formData, userData.profileUrl); 
+        validatedData = signUpStep1(formData, userData.profileUrl);
         break;
       case 2:
-        validatedData = signUpStep2(formData); 
-        await sendOTPMailAPICall({email:userData.email,userName:userData.firstName+" "+userData.lastName})
+        validatedData = signUpStep2(formData);
+
         break;
       default:
         validatedData = signUpStep3(formData);
@@ -232,13 +229,22 @@ export default function SignUp() {
     if (isEmpty(err)) {
       setUserData({ ...userData, ...data });
       if (step === 2) {
-        sendOtpApiCall(userData.email);
+        sendOTPMailAPICall({
+          email: userData.email,
+          userName: userData.firstName + " " + userData.lastName,
+        });
       }
       if (step === 3) {
-        verifyOtpApiCall();
+        verifyOtpApiCall({ email: userData.email, otp: userData.otp }).then(
+          (response) =>
+            response.status === "Error"
+              ? toast.error(response.message)
+              : toast.success(response.message)
+        );
       }
       return true;
     }
+    return false;
   };
 
   return (
@@ -248,7 +254,7 @@ export default function SignUp() {
       alignItems={"center"}
       justifyContent={"space-around"}
       className="sign-in"
-    > 
+    >
       <Grid item sm={6} style={{ minHeight: "384px" }}>
         <CustomStepper
           stepperData={{

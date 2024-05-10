@@ -17,8 +17,11 @@ export const getCityList = (id) => {
     .get("/city/by-state-id?stateId=" + id)
     .then((response) => response?.data);
 };
-export const sendOTPMailAPICall = async (emailData) => { 
-  const response = await axios
-    .post("/public/mail",emailData);
+export const sendOTPMailAPICall = async (emailData) => {
+  const response = await axios.post("/public/mail", emailData);
+  return response?.data;
+};
+export const verifyOtpApiCall = async (emailData) => {
+  const response = await axios.post("/public/verify-OTP", emailData);
   return response?.data;
 };
