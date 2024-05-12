@@ -25,3 +25,4 @@ export const verifyOtpApiCall = async (emailData) => {
   const response = await axios.post("/public/verify-OTP", emailData);
   return response?.data;
 };
+export const apiLoadingStack=[];

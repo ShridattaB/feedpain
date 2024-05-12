@@ -19,8 +19,7 @@ function AuthProvider() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
   const [routes, setRoutes] = useState([]);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate(); 
   const handleLogin = (data) => {
     setLoading(true);
     axios.post("/role/save", {
@@ -62,7 +61,7 @@ function AuthProvider() {
     }
     return () => {};
   }, [user]);
-
+   
   useEffect(() => {
     setLoading(false);
   }, [routes]);

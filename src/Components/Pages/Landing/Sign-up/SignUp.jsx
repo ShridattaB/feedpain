@@ -8,6 +8,7 @@ import InputText from "../../../Form/InputText/InputText";
 import CustomSelect from "../../../Select/CustomSelect";
 import CustomStepper from "../../../stepper/CustomStepper";
 import {
+  apiLoadingStack,
   getCityList,
   getCountryList,
   getCourseList,
@@ -16,24 +17,27 @@ import {
   verifyOtpApiCall,
 } from "../apiCall";
 import { signUpStep1, signUpStep2, signUpStep3 } from "../validation";
+import { useAuth } from "../../../../hooks/useAuth";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignUp() {
   const [error, setError] = React.useState({});
-  const [userData, setUserData] = React.useState({});
+  const [userData, setUserData] = React.useState({}); 
   const [options, setOptions] = React.useState({
     course: [],
     country: [],
     state: [],
     city: [],
   });
-  React.useEffect(() => {
-    if (!options.course.length)
+  React.useEffect(() => { 
+    if (!options.course.length) { 
+      apiLoadingStack.push("getCourseList")
       getCourseList().then((response) => {
         if (response?.status === "Success")
-          setOptions({ ...options, course: response.data });
+          setOptions({ ...options, course: response.data }); 
       });
+    }
     if (!options.country.length)
       getCountryList().then((response) => {
         if (response?.status === "Success")
@@ -236,10 +240,12 @@ export default function SignUp() {
       }
       if (step === 3) {
         verifyOtpApiCall({ email: userData.email, otp: userData.otp }).then(
-          (response) =>
-            response.status === "Error"
-              ? toast.error(response.message)
-              : toast.success(response.message)
+          (response) => {
+            if (response.status === "Error") toast.error(response.message);
+            else {
+              toast.success(response.message);
+            }
+          }
         );
       }
       return true;
