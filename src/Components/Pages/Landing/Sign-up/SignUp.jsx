@@ -14,28 +14,32 @@ import {
   getCourseList,
   getStateList,
   sendOTPMailAPICall,
+  signUpAPI,
+  uploadProfile,
   verifyOtpApiCall,
 } from "../apiCall";
 import { signUpStep1, signUpStep2, signUpStep3 } from "../validation";
 import { useAuth } from "../../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignUp() {
   const [error, setError] = React.useState({});
-  const [userData, setUserData] = React.useState({}); 
+  const [userData, setUserData] = React.useState({});
+  const navigate = useNavigate();
   const [options, setOptions] = React.useState({
     course: [],
     country: [],
     state: [],
     city: [],
   });
-  React.useEffect(() => { 
-    if (!options.course.length) { 
-      apiLoadingStack.push("getCourseList")
+  React.useEffect(() => {
+    if (!options.course.length) {
+      apiLoadingStack.push("getCourseList");
       getCourseList().then((response) => {
         if (response?.status === "Success")
-          setOptions({ ...options, course: response.data }); 
+          setOptions({ ...options, course: response.data });
       });
     }
     if (!options.country.length)
@@ -227,7 +231,6 @@ export default function SignUp() {
         validatedData = signUpStep3(formData);
         break;
     }
-
     let { err, data } = validatedData;
     setError(err);
     if (isEmpty(err)) {
@@ -238,16 +241,35 @@ export default function SignUp() {
           userName: userData.firstName + " " + userData.lastName,
         });
       }
-      if (step === 3) {
+      if (step === 3 && userData.otp) {
         verifyOtpApiCall({ email: userData.email, otp: userData.otp }).then(
           (response) => {
             if (response.status === "Error") toast.error(response.message);
             else {
               toast.success(response.message);
+              let formData = new FormData();
+              formData.append(
+                "name",
+                userData.firstName +
+                  userData.lastName +
+                  new Date()
+                    .toUTCString()
+                    .replaceAll(" ", "")
+                    .replaceAll(":", "")
+                    .replaceAll(",", "")
+              );
+              formData.append("file", userData.profileUrl);
+              uploadProfile(formData).then((url) => {
+                userData.profileUrl = url;
+                signUpAPI(userData).then((res) => {
+                  if (res.status === 200);
+                  navigate("/sign-in");
+                });
+              });
             }
           }
         );
-      }
+      } else if (step === 3) toast.success("re-submit");
       return true;
     }
     return false;

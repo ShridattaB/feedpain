@@ -19,25 +19,22 @@ function AuthProvider() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
   const [routes, setRoutes] = useState([]);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const handleLogin = (data) => {
     setLoading(true);
-    axios.post("/role/save", {
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    // localStorage.setItem(
-    //   "accessToken",
-    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiQWRtaW4ifQ.gtK1SEC1PZ2DrLBc27l4d8XubjXd01r4gp_G-f1uTsw"
-    // );
-    // setUser(getUserData());
-    // } else {
-    //   localStorage.setItem(
-    //     "accessToken",
-    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOiIiLCJyb2xlIjoiVXNlciJ9.5xzzJaibTrUOuhwxiHu2Jc-WMiACgzzhyCF2jA0ogWU"
-    //   );
-    //   setUser(getUserData());
-    // }
+    axios
+      .post("/auth/sign-in", {
+        email: data.get("email"),
+        password: data.get("password"),
+      })
+      .then((res) => {
+        console.log(res);
+        const {
+          data: { message, value },
+        } = res;
+        localStorage.setItem("accessToken", value);
+        setUser(getUserData());
+      });
   };
   const handleLogout = () => {
     localStorage.clear();
@@ -61,7 +58,7 @@ function AuthProvider() {
     }
     return () => {};
   }, [user]);
-   
+
   useEffect(() => {
     setLoading(false);
   }, [routes]);
