@@ -1,21 +1,21 @@
 import "./faq.css";
 // ** MUI Imports
-import Tab from "@mui/material/Tab";
-import TabPanel from "@mui/lab/TabPanel";
-import TabContext from "@mui/lab/TabContext";
-import Accordion from "@mui/material/Accordion";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
-import MuiTabList from "@mui/lab/TabList";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import BlindsClosedIcon from "@mui/icons-material/BlindsClosed";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import TabContext from "@mui/lab/TabContext";
+import MuiTabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
 
 // ** Custom Components Imports
-import CustomAvatar from "./../../Avatar/avatar";
 import { useState } from "react";
+import CustomAvatar from "./../../Avatar/Avatar";
 
 // Styled TabList component
 const MuiBox = styled(Box)(({ theme }) => ({

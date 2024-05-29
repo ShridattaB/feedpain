@@ -1,22 +1,22 @@
 // import PropTypes from "prop-types";
-import "./header.css";
-import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
+import MenuIcon from "@mui/icons-material/Menu";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
 import Drawer from "@mui/material/Drawer";
-import MenuIcon from "@mui/icons-material/Menu";
-import ToggleColorMode from "./ToggleColorMode";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { user as userMenu, admin, visitor } from "./menuList";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { useAuth } from "../../../hooks/useAuth";
 import MainLogo from "../../SVGS/MainLogo";
+import ToggleColorMode from "./ToggleColorMode";
+import "./header.css";
+import { admin, user as userMenu, visitor } from "./menuList";
 const logoStyle = {
   width: "140px",
   height: "auto",
@@ -41,7 +41,7 @@ export default function Header({ mode, toggleColorMode }) {
       case "Admin":
         setMenu(admin);
         break;
-      case "User": 
+      case "User":
         setMenu(userMenu);
         break;
       default:
@@ -69,10 +69,7 @@ export default function Header({ mode, toggleColorMode }) {
               justifyContent: "space-between",
               flexShrink: 0,
               borderRadius: "999px",
-              bgcolor:
-                theme.palette.mode === "light"
-                  ? "rgba(255, 255, 255, 0.4)"
-                  : "rgba(0, 0, 0, 0.4)",
+              bgcolor: "#ffffff",
               backdropFilter: "blur(24px)",
               maxHeight: 40,
               border: "1px solid",

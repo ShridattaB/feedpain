@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 
 // ** MUI Imports
 import MuiAvatar from "@mui/material/Avatar";
-import { lighten, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 
 const Avatar = forwardRef((props, ref) => {
   // ** Props
@@ -15,10 +15,9 @@ const Avatar = forwardRef((props, ref) => {
   const getAvatarStyles = (skin, skinColor) => {
     let avatarStyles;
     avatarStyles = {
-      color:'#696CFF',
-      backgroundColor: 'rgba(105, 108, 255, 0.16)',
+      color: "#696CFF",
+      backgroundColor: "rgba(105, 108, 255, 0.16)",
     };
-     
 
     return avatarStyles;
   };

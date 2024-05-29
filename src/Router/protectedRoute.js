@@ -1,7 +1,7 @@
 import { Outlet, Route } from "react-router-dom";
 import SetDocumentData from "./SetDocumentData";
 export default (routes, role) => {
-  const loverRole = role?.toLocaleLowerCase(); 
+  const loverRole = role?.toLocaleLowerCase();
   if (role)
     return (
       <Route
@@ -16,13 +16,13 @@ export default (routes, role) => {
           <Route
             key={index}
             path={
-              (item.path === `${loverRole}`) ? item.path + `/home` : item.path
+              item.path === `${loverRole}` ? item.path + `/home` : item.path
             }
             exact={item.exact}
             name={item.name}
             index={item.path === "/"}
             element={
-              <SetDocumentData name={item.name}> 
+              <SetDocumentData name={item.name}>
                 <item.component />
               </SetDocumentData>
             }
@@ -40,7 +40,7 @@ export default (routes, role) => {
         index={item.path === "/"}
         element={
           <SetDocumentData name={item.name}>
-            <item.component />
+            <item.component isPublic={true} />
           </SetDocumentData>
         }
       />

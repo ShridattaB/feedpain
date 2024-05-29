@@ -1,4 +1,3 @@
-
 export const months = [
   "JAN",
   "FEB",
@@ -52,8 +51,8 @@ export function parseJwt() {
     );
     return JSON.parse(jsonPayload);
   } catch (error) {
-    localStorage.clear()
-    window.location="/"
+    localStorage.clear();
+    window.location = "/";
   }
 }
 

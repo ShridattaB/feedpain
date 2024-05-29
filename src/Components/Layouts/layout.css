@@ -1,3 +1,6 @@
+.no-padding {
+  padding: 0;
+}
 .theme {
   margin-top: 84px;
   height: 100vh;
@@ -26,4 +29,8 @@
 .theme-section-card {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+.theme-section-card-public .custom-card-content {
+  padding: 0 !important;
+  height: inherit;
 }

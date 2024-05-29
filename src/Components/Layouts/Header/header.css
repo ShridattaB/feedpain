@@ -2,26 +2,26 @@
   color: rgba(6, 123, 241, 0.856);
 }
 .main-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .sub-menu {
-    list-style: none;
-    display: none;
-    color: black;
-  }
-  
-  input[type='checkbox'] {
-    display: none;
-  }
-  
-  input[type='checkbox']:checked + label + ul {
-    display: block;
-  }
-  
-  label {
-    cursor: pointer;
-    color: black;
-  }
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sub-menu {
+  list-style: none;
+  display: none;
+  color: black;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked + label + ul {
+  display: block;
+}
+
+label {
+  cursor: pointer;
+  color: black;
+}

@@ -5,3 +5,66 @@
   height: calc(100% - 32px);
   padding-bottom: 16px !important;
 }
+.feedback-card {
+  width: 240px;
+  position: absolute;
+  margin: 8px;
+  padding: 8px;
+  height: 178px;
+  border-radius: 20px !important;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  background-color: rgb(158, 177, 202) !important;
+  animation-name: feedback-card-animation;
+  animation-duration: 60s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+}
+.feedback-avatar {
+  position: relative !important;
+
+  border: 2px #02658447;
+  width: 48px !important;
+  height: 48px !important;
+}
+@keyframes feedback-card-animation {
+  0% {
+    left: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  25% {
+    left: 25%;
+  }
+  50% {
+    left: 50%;
+  }
+  75% {
+    left: 75%;
+  }
+  100% {
+    left: 82%;
+    opacity: 0;
+  }
+}
+
+.feedback-card .header {
+  display: flex;
+  flex-direction: row;
+  color: black;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10px;
+}
+.feedback-card .feedback-description {
+  text-indent: 50px;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-inline: 8px;
+}

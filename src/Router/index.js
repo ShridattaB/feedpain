@@ -1,8 +1,8 @@
 import { Suspense, useEffect } from "react";
-import protectedRoute from "./protectedRoute";
 import { Route } from "react-router-dom";
-import FeedPainTheme from "./../Components/Layouts/FeedPainTheme";
 import PageNotFound from "../Components/Pages/Error/PageNotFound";
+import FeedPainTheme from "./../Components/Layouts/FeedPainTheme";
+import protectedRoute from "./protectedRoute";
 const SetDocumentData = ({ children, name }) => {
   useEffect(() => {
     document.body.scrollTop = 0;
@@ -11,11 +11,10 @@ const SetDocumentData = ({ children, name }) => {
   });
   return <Suspense fallback={<label>Loading...</label>}> {children}</Suspense>;
 };
-export function getRoutes(routes,role) { 
-   
+export function getRoutes(routes, role) {
   return (
-    <Route element={<FeedPainTheme />}>
-      {protectedRoute(routes,role)}
+    <Route element={<FeedPainTheme isPublic={!role} />}>
+      {protectedRoute(routes, role)}
       <Route
         key={"error"}
         path={"*"}

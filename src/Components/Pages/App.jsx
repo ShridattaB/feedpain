@@ -1,9 +1,11 @@
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 import React, { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "../../Context/AuthContext";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
 export default function App() {
+  const theme = createTheme();
   useEffect(() => {
     axios.interceptors.response.use(
       (response) => {
@@ -17,10 +19,13 @@ export default function App() {
     );
     axios.defaults.baseURL = "http://localhost:8083";
   }, []);
+
   return (
-    <BrowserRouter>
-      <AuthProvider />
-      <Toaster />
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <AuthProvider />
+        <Toaster />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }

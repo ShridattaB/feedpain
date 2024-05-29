@@ -1,14 +1,15 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
+import { useMediaQuery } from "@mui/material";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
+import * as React from "react";
+import { isEmpty } from "../../../../Utils";
 import { useAuth } from "../../../../hooks/useAuth";
 import InputText from "../../../Form/InputText/InputText";
 import validation from "../validation";
-import { isEmpty } from "../../../../Utils";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -25,7 +26,7 @@ export default function SignIn() {
     setError(err);
     if (isEmpty(err)) login(data);
   };
-
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("lg"));
   return (
     <Grid
       container
@@ -35,9 +36,11 @@ export default function SignIn() {
       justifyContent={"space-around"}
       className="sign-in"
     >
-      <Grid item sm={4}>
-        <img width="100%" src="/images/login-amico.png" />
-      </Grid>
+      {!isMobile && (
+        <Grid item sm={4}>
+          <img width="100%" src="/images/login-amico.png" />
+        </Grid>
+      )}
       <Grid item sm={4}>
         <Box
           sx={{
