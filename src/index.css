@@ -15,10 +15,16 @@ code {
 }
 .public-home {
   height: inherit;
-  background-image: url("/public/public-home.jpg");
+  /* background-image: url("/public/public-home.jpg"); */
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  filter: blur(0px);
+  /* filter: blur(0px); */
+}
+.public-home .top {
+  min-height: calc(100vh - 481px);
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
 }
 .intro {
   position: relative;
@@ -28,10 +34,8 @@ code {
   display: inline-block;
   font-family: fantasy;
   padding-inline: 13px;
-  color: #fff;
 }
 .public-home p {
-  color: #fff;
   text-indent: 50px;
   text-align: justify;
   padding-inline: 88px;

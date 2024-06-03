@@ -1,6 +1,5 @@
 import { Suspense, useEffect } from "react";
 import Loader from "../Components/Pages/Loader/Loader";
-import { useAuth } from "../hooks/useAuth";
 
 export default function SetDocumentData({ children, name }) {
   useEffect(() => {

@@ -9,14 +9,17 @@ import {
   styled,
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
-export default function UserProfileHeader({ setShow }) {
+import { getUserData } from "../../../Utils";
+export default function UserProfileHeader({ setShow, user }) {
+  const userData = getUserData();
   const data = {
-    fullName: "John Doe",
+    fullName: user.firstName + " " + user.lastName,
     location: "Vatican City",
     joiningDate: "April 2021",
     designationIcon: "bx:pen",
-    designation: "UX Designer",
-    profileImg: "/images/avatars/1.png",
+    designation: userData.role,
+    profileImg:
+      user.profileUrl?.replaceAll("\\", "/") || "/images/avatars/1.png",
     coverImg: "/images/banners/banner-19.jpg",
   };
   const ProfilePicture = styled("img")(({ theme }) => ({
@@ -90,19 +93,7 @@ export default function UserProfileHeader({ setShow }) {
                   {data.designation}
                 </Typography>
               </Box>
-              <Box
-                sx={{
-                  mr: 4,
-                  display: "flex",
-                  alignItems: "center",
-                  "& svg": { mr: 1, color: "text.secondary" },
-                }}
-              >
-                {/* <Icon icon="bx:map" /> */}
-                <Typography sx={{ color: "text.secondary", fontWeight: 600 }}>
-                  {data.location}
-                </Typography>
-              </Box>
+
               <Box
                 sx={{
                   display: "flex",

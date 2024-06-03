@@ -20,6 +20,7 @@ function AuthProvider() {
   const [user, setUser] = useState({});
   const [routes, setRoutes] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const handleLogin = (data) => {
     setLoading(true);
     axios
@@ -28,7 +29,6 @@ function AuthProvider() {
         password: data.get("password"),
       })
       .then((res) => {
-        console.log(res);
         const {
           data: { message, value },
         } = res;
@@ -56,13 +56,21 @@ function AuthProvider() {
       const route = routeList.filter((route) => !route.role.length);
       setRoutes(route);
     }
+    axios.interceptors.request.use((config) => {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+
+      return config;
+    });
     return () => {};
   }, [user]);
 
+  useEffect(() => {}, [routes]);
   useEffect(() => {
-    setLoading(false);
-  }, [routes]);
-
+    // if (!loading !== loading) setLoading(true);
+  }, [location.pathname]);
   const value = {
     user,
     loading,

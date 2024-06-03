@@ -4,8 +4,9 @@ import { Outlet } from "react-router-dom";
 import Card from "../Card/Card";
 import Header from "./Header/Header";
 import "./layout.css";
+import { useAuth } from "../../hooks/useAuth";
 export default function FeedPainTheme({ isPublic }) {
-  console.log(isPublic);
+  const { loading } = useAuth();
   return (
     <div className="theme">
       <Header />

@@ -11,12 +11,13 @@ import Table from "./../../../Table/Table";
 import { Button, styled } from "@mui/material";
 import { Link } from "react-router-dom";
 import CustomDialog from "../../../Diloag/CustomDialog";
+import CustomForm from "../../../Form/CustomForm/CustomForm";
 const TypographyStyled = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
 
 export default function Complaint() {
-  const [show,setShow]=useState(false)
+  const [show, setShow] = useState(false);
   return (
     <>
       <PageHeader
@@ -32,7 +33,27 @@ export default function Complaint() {
           </Button>
         }
       />
-      <CustomDialog show={show} setShow={setShow}/>
+      <CustomDialog
+        setShow={setShow}
+        show={show}
+        dialogTitle={"Create Complaint"}
+        dialogContentComponent={
+          <CustomForm
+            formField={[
+              { name: "title", type: "text", value: "" },
+              { name: "summary", type: "text", value: "", multiline: true },
+              {
+                name: "attachment",
+                type: "image",
+                value: "",
+                placeHolder: "Supporting Images",
+                multiple: "multiple",
+              },
+            ]}
+            submitLabel="Create"
+          />
+        }
+      />
       <Table />
     </>
   );

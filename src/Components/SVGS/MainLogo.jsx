@@ -9,11 +9,7 @@ const MainLogo = () => {
         </svg>
       </g>
       <g transform="translate(2, 13)">
-        <svg
-          height="26"
-          viewBox="0 0 320 76.2281488455498"
-          class="looka-1j8o68f"
-        >
+        <svg height="26" viewBox="0 0 320 76.2281488455498">
           <defs id="SvgjsDefs5328"></defs>
           <g
             id="SvgjsG5329"

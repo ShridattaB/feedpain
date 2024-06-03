@@ -42,28 +42,37 @@ export default function PublicHome() {
   ];
   return (
     <div className={`public-home ${isMobile ? "mobile" : ""}`}>
-      <div className="intro">Feedback & Complaint</div>
-      <p>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your voice matters! Your experiences and
-        insights are invaluable to improving our educational environment and
-        facilities. We encourage you to share your feedback and concerns
-        regarding the education and facilities at our institution.
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Whether it's about the quality of
-        teaching, the condition of classrooms, access to resources, or any other
-        aspect of your academic experience, your feedback can drive positive
-        change. By speaking up, you help us understand what's working and what
-        needs improvement, ensuring a better learning experience for everyone.
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remember, constructive feedback and
-        complaints are essential tools for progress. Let's work together to
-        create an environment where every student can thrive. Your input is the
-        first step towards making a real difference.
-      </p>
-      {!isMobile &&
-        feedBackUser.map((fu, index) => (
-          <FeedbackCard style={{ animationDelay: `${index * 15}s` }} {...fu} />
-        ))}
+      <div className="top">
+        <div className="intro">Feedback & Complaint</div>
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your voice matters! Your experiences and
+          insights are invaluable to improving our educational environment and
+          facilities. We encourage you to share your feedback and concerns
+          regarding the education and facilities at our institution.
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Whether it's about the quality of
+          teaching, the condition of classrooms, access to resources, or any
+          other aspect of your academic experience, your feedback can drive
+          positive change. By speaking up, you help us understand what's working
+          and what needs improvement, ensuring a better learning experience for
+          everyone.
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remember, constructive feedback and
+          complaints are essential tools for progress. Let's work together to
+          create an environment where every student can thrive. Your input is
+          the first step towards making a real difference.
+        </p>
+      </div>
+
+      <div className="bottom">
+        {!isMobile &&
+          feedBackUser.map((fu, index) => (
+            <FeedbackCard
+              style={{ animationDelay: `${index * 15}s` }}
+              {...fu}
+            />
+          ))}
+      </div>
     </div>
   );
 }

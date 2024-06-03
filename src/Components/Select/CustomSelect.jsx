@@ -17,7 +17,10 @@ export default function CustomSelect({
   handleChange = () => {},
   valueLabel = "id",
   titleLabel = [],
-}) { 
+  width,
+  margin,
+  style,
+}) {
   return (
     <FormControl className="custom-select">
       <InputLabel
@@ -35,7 +38,8 @@ export default function CustomSelect({
         name={name}
         error={error}
         size="small"
-        style={{ margin: "8px", width: "24ch" }}
+        fullWidth
+        style={{ margin: margin || "8px", width: width || "24ch", ...style }}
         onChange={handleChange}
       >
         <MenuItem value="">
