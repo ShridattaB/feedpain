@@ -12,6 +12,19 @@ export default function App() {
         return response;
       },
       (error) => {
+        const { response } = error;
+        if (response)
+          switch (response.status) {
+            case 403:
+              return;
+              localStorage.clear();
+              window.location("/");
+
+              break;
+
+            default:
+              break;
+          }
         if (error.code === "ERR_NETWORK")
           toast("Error:" + error.message, { position: "top-right" });
         else return Promise.reject(error);

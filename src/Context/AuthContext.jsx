@@ -1,9 +1,9 @@
-import React, { createContext, useEffect, useRef, useState } from "react";
+import axios from "axios";
+import React, { createContext, useEffect, useState } from "react";
 import { Routes, useLocation, useNavigate } from "react-router-dom";
 import { getRoutes } from "../Router";
 import { routeList } from "../Router/routeList";
 import { getUserData } from "../Utils";
-import axios from "axios";
 
 // ** Defaults
 const defaultProvider = {
@@ -45,7 +45,11 @@ function AuthProvider() {
     if (user.role) {
       const route = routeList.filter((route) => route.role.includes(user.role));
       setRoutes(route);
-      navigate(user.role ? `${user.role.toLowerCase()}/home` : "/");
+      const path = user.role ? `${user.role.toLowerCase()}/home` : "/";
+      if (location.pathname !== "/" + path) {
+        navigate(path);
+        window && window.location.reload();
+      }
     } else {
       const token = localStorage.getItem("accessToken");
 

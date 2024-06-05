@@ -62,3 +62,57 @@ export const uploadImage = async (data, count) => {
     const response =await axios.post("/public/upload", formData);
     return await response?.data?.value;
 }
+export const getComplaint = async () => {
+    const res = await axios.get("/complaint/");
+    if (res.status === 200) {
+        const { data, status } = res?.data;
+        if (status === "Success") {
+            return data;
+        }
+    }
+ }
+ export const createComplaint  = async (data) => {
+    const bodyContent = {};
+    const uploadPromises = [];
+    let attCount = 0;
+
+    for (const pair of data.entries()) {
+        if (pair[0] === "attachment") {
+            const uploadPromise = uploadImage(pair[1], attCount++).then(url => {
+                return { key: pair[0], url };
+            });
+            uploadPromises.push(uploadPromise);
+        } else {
+            bodyContent[pair[0]] = pair[1];
+        }
+    }
+
+    const uploadResults = await Promise.all(uploadPromises);
+
+    uploadResults.forEach(result => {
+        if (!bodyContent[result.key]) {
+            bodyContent[result.key] = [];
+        }
+        bodyContent[result.key].push(result.url);
+    });  
+      // Stringify the attachment array if it exists
+      if (bodyContent["attachment"]) {
+        bodyContent["attachment"] = JSON.stringify(bodyContent["attachment"]);
+    }
+    const res = await axios.post("/complaint/save", bodyContent);
+    if (res.status === 200) {
+        const { data, status } = res?.data;
+        if (status === "Success") {
+            return data;
+        }
+    }
+}
+export const  getListOfUsers = async() => {
+    const res = await axios.get("/user/");
+    if (res.status === 200) {
+        const { data, status } = res?.data;
+        if (status === "Success") {
+            return data;
+        }
+    }
+}

@@ -4,12 +4,12 @@ import "./table.css";
 // ** MUI Imports
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import TableRow from "@mui/material/TableRow";
-import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
 
 const TableStickyHeader = ({ columns, rows }) => {
   // ** States
@@ -56,7 +56,7 @@ const TableStickyHeader = ({ columns, rows }) => {
 
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format ? column.format(value) : value}
+                          {column.format ? column.format(value || row) : value}
                         </TableCell>
                       );
                     })}

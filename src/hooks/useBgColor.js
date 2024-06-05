@@ -12,59 +12,36 @@ export const hexToRGBA = (hexCode, opacity) => {
 
   return `rgba(${r}, ${g}, ${b}, ${opacity})`
 }
-const UseBgColor = () => {
-  // ** Hooks
-  const theme = useTheme()
+ 
+const UseBgColor = () => { 
 
   return {
-    primaryFilled: {
-      color: theme.palette.primary.contrastText,
-      backgroundColor: theme.palette.primary.main
+    primary: {
+      color: `rgb(105, 108, 255)`,
+      backgroundColor: `rgba(105, 108, 255, 0.16)`,
     },
-    primaryLight: {
-      color: theme.palette.primary.main,
-      backgroundColor: hexToRGBA(theme.palette.primary.main, 0.16)
+    secondary: {
+      color: `rgb(133, 146, 163)`,
+      backgroundColor: `rgba(133, 146, 163, 0.16)`
     },
-    secondaryFilled: {
-      color: theme.palette.secondary.contrastText,
-      backgroundColor: theme.palette.secondary.main
+    success: {
+      color: `rgb(113, 221, 55)`,
+      backgroundColor: `rgba(113, 221, 55, 0.16);}`
     },
-    secondaryLight: {
-      color: theme.palette.secondary.main,
-      backgroundColor: hexToRGBA(theme.palette.secondary.main, 0.16)
+    error: {
+      color: `rgb(255, 62, 29)`,
+      backgroundColor: `rgba(255, 62, 29, 0.16)`
     },
-    successFilled: {
-      color: theme.palette.success.contrastText,
-      backgroundColor: theme.palette.success.main
+
+    warning: {
+      color: `rgb(255, 171, 0)`,
+      backgroundColor: `rgba(255, 171, 0, 0.16)`
     },
-    successLight: {
-      color: theme.palette.success.main,
-      backgroundColor: hexToRGBA(theme.palette.success.main, 0.16)
-    },
-    errorFilled: {
-      color: theme.palette.error.contrastText,
-      backgroundColor: theme.palette.error.main
-    },
-    errorLight: {
-      color: theme.palette.error.main,
-      backgroundColor: hexToRGBA(theme.palette.error.main, 0.16)
-    },
-    warningFilled: {
-      color: theme.palette.warning.contrastText,
-      backgroundColor: theme.palette.warning.main
-    },
-    warningLight: {
-      color: theme.palette.warning.main,
-      backgroundColor: hexToRGBA(theme.palette.warning.main, 0.16)
-    },
-    infoFilled: {
-      color: theme.palette.info.contrastText,
-      backgroundColor: theme.palette.info.main
-    },
-    infoLight: {
-      color: theme.palette.info.main,
-      backgroundColor: hexToRGBA(theme.palette.info.main, 0.16)
+    info: {
+      color: `rgb(3, 195, 236)`,
+      backgroundColor: `rgba(3, 195, 236, 0.16)`
     }
+
   }
 }
 

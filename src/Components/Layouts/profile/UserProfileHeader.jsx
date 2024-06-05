@@ -1,16 +1,16 @@
-import React from "react";
+import CreateIcon from "@mui/icons-material/Create";
 import {
-  Typography,
   Box,
-  Card,
   Button,
+  Card,
   CardContent,
   CardMedia,
+  Typography,
   styled,
 } from "@mui/material";
-import CreateIcon from "@mui/icons-material/Create";
+import React from "react";
 import { getUserData } from "../../../Utils";
-export default function UserProfileHeader({ setShow, user }) {
+export default function UserProfileHeader({ setShow, user, isProps }) {
   const userData = getUserData();
   const data = {
     fullName: user.firstName + " " + user.lastName,
@@ -109,6 +109,7 @@ export default function UserProfileHeader({ setShow, user }) {
             </Box>
           </Box>
           <Button
+            disabled={isProps}
             onClick={(e) => setShow(true)}
             variant="contained"
             startIcon={<CreateIcon />}

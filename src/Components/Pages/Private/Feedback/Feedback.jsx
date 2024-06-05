@@ -1,3 +1,4 @@
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useEffect, useState } from "react";
 import "./feedback.css";
 // ** MUI Imports
@@ -8,19 +9,22 @@ import PageHeader from "./../../../Layouts/page-header/index";
 import Table from "./../../../Table/Table";
 
 import { Avatar, AvatarGroup, Button, Tooltip, styled } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { isEmpty, statusColor } from "../../../../Utils";
+import CustomChip from "../../../CustomChip/CustomChip";
 import CustomDialog from "../../../Diloag/CustomDialog";
 import CustomForm from "../../../Form/CustomForm/CustomForm";
-import validation from "../validation";
 import { createFeedback, getFeedback } from "../apiCall";
-import { isEmpty } from "../../../../Utils";
+import validation from "../validation";
 const TypographyStyled = styled(Typography)(({ theme }) => ({
-  color: theme.palette.primary.main,
+  color: "#026584",
 }));
 
 export default function Feedback() {
   const [error, setError] = useState({});
   const [show, setShow] = useState(false);
   const [feedbackList, setFeedbackList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getFeedback().then((res) => {
@@ -35,10 +39,15 @@ export default function Feedback() {
     const err = validation(data);
     setError(err);
     if (isEmpty(err)) {
-      createFeedback(data);
+      createFeedback(data).then(() =>
+        getFeedback().then((res) => {
+          setFeedbackList(res);
+        })
+      );
       setShow(false);
     }
   };
+
   return (
     <>
       <PageHeader
@@ -86,13 +95,9 @@ export default function Feedback() {
                   style={{ cursor: "pointer" }}
                   sx={{
                     "& .MuiAvatar-root": {
-                      height: "60px",
-                      width: "60px",
-                      boxShadow: `${
-                        error
-                          ? "rgb(255 4 75 / 85%) 0px 2px 10px 0px"
-                          : "0px 2px 10px 0px #0265848c"
-                      }`,
+                      height: "35px",
+                      width: "35px",
+                      boxShadow: `0px 2px 10px 0px #026584`,
                     },
                   }}
                 >
@@ -113,7 +118,27 @@ export default function Feedback() {
           },
           {
             id: "feedbackStatuses",
-            label: "feedbackStatuses",
+            label: "Feedback Status",
+            align: "center",
+            format: (value) => (
+              <CustomChip color={statusColor[value[0]?.status?.id || 0]}>
+                {value[0]?.status?.status || "New"}
+              </CustomChip>
+            ),
+          },
+          {
+            id: "view",
+            label: "View Feedback",
+            format: (value) => (
+              <VisibilityIcon
+                sx={{ color: "#298dad", cursor: "pointer" }}
+                onClick={(e) => {
+                  navigate("/user/feedback/view", {
+                    state: { isFeedback: true, data: value },
+                  });
+                }}
+              />
+            ),
           },
         ]}
       />

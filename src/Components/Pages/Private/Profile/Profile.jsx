@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from "react";
-import "./profile.css";
-import { Card, Grid, CardContent, Box, Typography } from "@mui/material";
-import UserProfileHeader from "../../../Layouts/profile/UserProfileHeader";
-import CustomDialog from "../../../Diloag/CustomDialog";
-import { getUserProfile } from "./apiCall";
-import { getUserData } from "../../../../Utils";
+import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { getUserData } from "../../../../Utils";
+import CustomDialog from "../../../Diloag/CustomDialog";
 import CustomForm from "../../../Form/CustomForm/CustomForm";
-import {
-  getCountryList,
-  getStateList,
-  getCityList,
-} from "./../../Landing/apiCall";
+import UserProfileHeader from "../../../Layouts/profile/UserProfileHeader";
+import { getCountryList, getStateList } from "./../../Landing/apiCall";
+import { getUserProfile } from "./apiCall";
+import "./profile.css";
 
 const Profile = () => {
   const [show, setShow] = useState(false);
   const [user, setUser] = useState({});
   const [country, setCountry] = useState([]);
   const [stateList, setStateList] = useState([]);
+  const { state } = useLocation();
 
   useEffect(() => {
+    if (state) {
+      setUser(state.user);
+      return;
+    }
     const { sub } = getUserData();
     getUserProfile(sub).then((res) => {
       if (res) {
@@ -38,6 +40,26 @@ const Profile = () => {
       }
     });
   }, []);
+  useEffect(() => {
+    if (state) return;
+    const { sub } = getUserData();
+    getUserProfile(sub).then((res) => {
+      if (res) {
+        setUser(res);
+        getCountryList().then((response) => {
+          if (response?.status === "Success") {
+            setCountry(response.data);
+            if (res.state) {
+              const id = response.data?.find((x) => x.name === res.country).id;
+              getStateList(id).then((response) => {
+                if (response?.status === "Success") setStateList(response.data);
+              });
+            }
+          }
+        });
+      }
+    });
+  }, [state]);
   const renderList = (arr) => {
     if (arr) {
       return Object.keys(arr).map((item, index) => {
@@ -63,18 +85,54 @@ const Profile = () => {
                   alignItems: "center",
                 }}
               >
-                <Typography
-                  sx={{
-                    fontWeight: 600,
-                    color: "text.secondary",
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {`${item}:`}
-                </Typography>
-                <Typography sx={{ color: "text.secondary" }}>
-                  {arr[item]}
-                </Typography>
+                {item.includes("authorities") && (
+                  <>
+                    <Typography
+                      sx={{
+                        fontWeight: 600,
+                        color: "text.secondary",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      Role
+                    </Typography>
+                    <Typography sx={{ color: "text.secondary" }}>
+                      {arr[item][0].authority}
+                    </Typography>
+                  </>
+                )}
+                {item.includes("Bean") && (
+                  <>
+                    <Typography
+                      sx={{
+                        fontWeight: 600,
+                        color: "text.secondary",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {item.replace("Bean", "")}
+                    </Typography>
+                    <Typography sx={{ color: "text.secondary" }}>
+                      {arr[item].name}
+                    </Typography>
+                  </>
+                )}
+                {!item.includes("Bean") && !item.includes("authorities") && (
+                  <>
+                    <Typography
+                      sx={{
+                        fontWeight: 600,
+                        color: "text.secondary",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {`${item}:`}
+                    </Typography>
+                    <Typography sx={{ color: "text.secondary" }}>
+                      {arr[item]}
+                    </Typography>
+                  </>
+                )}
               </Box>
             </Box>
           </Grid>
@@ -98,7 +156,11 @@ const Profile = () => {
   return (
     <Grid container spacing={2} className="profile">
       <Grid item xs={12} className="profile-Header">
-        <UserProfileHeader setShow={setShow} user={user} />
+        <UserProfileHeader
+          setShow={setShow}
+          user={user}
+          isProps={state?.isProps}
+        />
       </Grid>
       <Grid
         item

@@ -1,23 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./complaint.css";
 // ** MUI Imports
-import Grid from "@mui/material/Grid";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import Typography from "@mui/material/Typography";
 
 import PageHeader from "./../../../Layouts/page-header/index";
 
 import Table from "./../../../Table/Table";
 
-import { Button, styled } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Avatar, AvatarGroup, Button, Tooltip, styled } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { isEmpty, statusColor } from "../../../../Utils";
+import CustomChip from "../../../CustomChip/CustomChip";
 import CustomDialog from "../../../Diloag/CustomDialog";
 import CustomForm from "../../../Form/CustomForm/CustomForm";
+import { createComplaint, getComplaint } from "../apiCall";
+import validation from "../validation";
 const TypographyStyled = styled(Typography)(({ theme }) => ({
-  color: theme.palette.primary.main,
+  color: "#026584",
 }));
 
 export default function Complaint() {
   const [show, setShow] = useState(false);
+  const [complaintList, setComplaintList] = useState([]);
+  const navigate = useNavigate();
+  const [error, setError] = useState({});
+  useEffect(() => {
+    getComplaint().then((res) => {
+      setComplaintList(res);
+    });
+  }, []);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setError({});
+    const data = new FormData(event.currentTarget);
+    const err = validation(data);
+    setError(err);
+    if (isEmpty(err)) {
+      createComplaint(data).then(() => {
+        getComplaint().then((res) => {
+          setComplaintList(res);
+        });
+      });
+      setShow(false);
+    }
+  };
+
   return (
     <>
       <PageHeader
@@ -32,6 +60,85 @@ export default function Complaint() {
             Create Complaint
           </Button>
         }
+      />
+      <Table
+        rows={complaintList}
+        columns={[
+          {
+            id: "id",
+            label: "id",
+          },
+          {
+            id: "title",
+            label: "title",
+            // minWidth: 170,
+            // align: "right",
+            // format: (value) => value,
+          },
+          {
+            id: "summary",
+            label: "summary",
+            minWidth: 170,
+          },
+          {
+            id: "attachment",
+            label: "attachment",
+            align: "center",
+            format: (value) =>
+              value ? (
+                <AvatarGroup
+                  max={4}
+                  htmlFor={`feedback_att-file`}
+                  component="label"
+                  style={{ cursor: "pointer" }}
+                  sx={{
+                    "& .MuiAvatar-root": {
+                      height: "35px",
+                      width: "35px",
+                      boxShadow: `0px 2px 10px 0px #026584`,
+                    },
+                  }}
+                >
+                  {typeof JSON.parse(value) === "object" &&
+                    JSON.parse(value)?.map((item, index) => (
+                      <Tooltip key={index} title={item.index}>
+                        <Avatar
+                          key={index}
+                          alt={item.index}
+                          src={"http://localhost:8083" + item}
+                        />
+                      </Tooltip>
+                    ))}
+                </AvatarGroup>
+              ) : (
+                <></>
+              ),
+          },
+          {
+            id: "complaintStatuses",
+            label: "Complaint Status",
+            align: "center",
+            format: (value) => (
+              <CustomChip color={statusColor[value[0]?.status?.id || 1]}>
+                {value[0]?.status?.status || "New"}
+              </CustomChip>
+            ),
+          },
+          {
+            id: "view",
+            label: "View complaint",
+            format: (value) => (
+              <VisibilityIcon
+                sx={{ color: "#298dad", cursor: "pointer" }}
+                onClick={(e) => {
+                  navigate("/user/complaint/view", {
+                    state: { isComplaint: true, data: value },
+                  });
+                }}
+              />
+            ),
+          },
+        ]}
       />
       <CustomDialog
         setShow={setShow}
@@ -51,10 +158,10 @@ export default function Complaint() {
               },
             ]}
             submitLabel="Create"
+            handleSubmit={handleSubmit}
           />
         }
       />
-      <Table />
     </>
   );
 }

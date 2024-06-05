@@ -1,14 +1,15 @@
+import AboutUs from "../Components/Pages/About/AboutUs";
+import FAQ from "../Components/Pages/FAQ/FAQ";
 import PublicHome from "../Components/Pages/Landing/Home/PublicHome";
-import Private from "../Components/Pages/Private/Home/Private";
 import SignIn from "../Components/Pages/Landing/Sign-in/SignIn";
 import SignUp from "../Components/Pages/Landing/Sign-up/SignUp";
-import Feedback from "./../Components/Pages/Private/Feedback/Feedback";
-import Complaint from "./../Components/Pages/Private/Complaint/Complaint";
-import Profile from "../Components/Pages/Private/Profile/Profile";
-import AdminHome from '../Components/Pages/Private/Admin/AdminHome/AdminHome'
-import FAQ from "../Components/Pages/FAQ/FAQ";
-import AboutUs from "../Components/Pages/About/AboutUs";
+import AdminHome from '../Components/Pages/Private/Admin/AdminHome/AdminHome';
 import UserList from "../Components/Pages/Private/Admin/UserList/UserList";
+import Private from "../Components/Pages/Private/Home/Private";
+import Profile from "../Components/Pages/Private/Profile/Profile";
+import ViewFeedbackComplaint from "../Components/Pages/Private/ViewFeedbackComplaint/ViewFeedbackComplaint";
+import Complaint from "./../Components/Pages/Private/Complaint/Complaint";
+import Feedback from "./../Components/Pages/Private/Feedback/Feedback";
 export const routeList = [
   {
     name: "Landing",
@@ -90,4 +91,19 @@ export const routeList = [
     private: true,
     role: ["Admin"],
   },
+  {
+    name: "view",
+    path: "feedback/view",
+    component: ViewFeedbackComplaint,
+    private: true,
+    role: ["User","Admin"],
+    
+  }, {
+    name: "view",
+    path: "complaint/view",
+    component: ViewFeedbackComplaint,
+    private: true,
+    role: ["User","Admin"],
+    
+  }
 ];

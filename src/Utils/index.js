@@ -65,3 +65,11 @@ export function isEmpty(obj) {
 
   return true;
 }
+export   const statusColor = {
+  1: `primary`,
+  5: `secondary`,
+  4: `success`,
+  6: `error`,
+  2: `warning`,
+  3: `info`,
+};
