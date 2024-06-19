@@ -31,9 +31,9 @@ const TableStickyHeader = ({ columns, rows }) => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns.map((column, index) => (
                 <TableCell
-                  key={column.id}
+                  key={column.id + "CID" + index}
                   align={column.align}
                   sx={{
                     minWidth: column.minWidth,
@@ -48,14 +48,14 @@ const TableStickyHeader = ({ columns, rows }) => {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, index) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code + "RID" + index}>
+                    {columns.map((column, index) => {
                       const value = row[column.id];
 
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell key={column.id + "CeID" + index} align={column.align} >
                           {column.format ? column.format(value || row) : value}
                         </TableCell>
                       );

@@ -1,9 +1,9 @@
 import { Box, Grid } from "@mui/material";
 import React from "react";
-import InputText from "./../InputText/InputText";
-import ImageInput from "../ImageInput/ImageInput";
-import CustomButton from "../../CustomButton/CustomButton";
 import CustomSelect from "../../../Components/Select/CustomSelect";
+import CustomButton from "../../CustomButton/CustomButton";
+import ImageInput from "../ImageInput/ImageInput";
+import InputText from "./../InputText/InputText";
 const CustomForm = ({ formField = [], submitLabel, handleSubmit }) => {
   return (
     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -23,13 +23,16 @@ const CustomForm = ({ formField = [], submitLabel, handleSubmit }) => {
             options,
             handleChange,
             multiline,
-          }) => {
+            titleLabel,
+            gridCol = 12
+          }, index) => {
             switch (type) {
               case "image":
                 return (
                   <Grid
+                    key={"index" + (id || name || index)}
                     sm={12}
-                    md={12}
+                    md={gridCol}
                     marginBottom={"20px"}
                     marginTop={"20px"}
                   >
@@ -46,7 +49,8 @@ const CustomForm = ({ formField = [], submitLabel, handleSubmit }) => {
                 );
               case "select":
                 return (
-                  <Grid sm={12} md={12}>
+                  <Grid sm={12} md={gridCol}
+                    key={"index" + (id || name || index)}>
                     <CustomSelect
                       width={"46.5ch"}
                       nid={id || name}
@@ -54,7 +58,7 @@ const CustomForm = ({ formField = [], submitLabel, handleSubmit }) => {
                       label={label || name}
                       error={!!error}
                       // helperText={error.state}
-                      titleLabel={["name"]}
+                      titleLabel={titleLabel && titleLabel.length || ["name"]}
                       options={options}
                       selected={options?.find((x) => x.name === value)?.id}
                       handleChange={handleChange}
@@ -64,7 +68,8 @@ const CustomForm = ({ formField = [], submitLabel, handleSubmit }) => {
                 );
               default:
                 return (
-                  <Grid sm={12} md={12}>
+                  <Grid sm={12} md={gridCol}
+                    key={"index" + (id || name || index)}>
                     <InputText
                       type={type}
                       defaultValue={value || ""}

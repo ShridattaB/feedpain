@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { Routes, useLocation, useNavigate } from "react-router-dom";
 import { getRoutes } from "../Router";
 import { routeList } from "../Router/routeList";
-import { getUserData } from "../Utils";
+import { getTokenFromLocalStorage, getUserData } from "../Utils";
 
 // ** Defaults
 const defaultProvider = {
@@ -51,7 +51,7 @@ function AuthProvider() {
         window && window.location.reload();
       }
     } else {
-      const token = localStorage.getItem("accessToken");
+      const token = getTokenFromLocalStorage()
 
       if (token) {
         setUser(getUserData());
@@ -61,20 +61,16 @@ function AuthProvider() {
       setRoutes(route);
     }
     axios.interceptors.request.use((config) => {
-      const token = localStorage.getItem("accessToken");
+      const token = getTokenFromLocalStorage()
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
 
       return config;
     });
-    return () => {};
+    return () => { };
   }, [user]);
 
-  useEffect(() => {}, [routes]);
-  useEffect(() => {
-    // if (!loading !== loading) setLoading(true);
-  }, [location.pathname]);
   const value = {
     user,
     loading,
@@ -86,8 +82,9 @@ function AuthProvider() {
 
   return (
     <AuthContext.Provider value={value}>
-      {<Routes>{!loading && getRoutes(routes, user.role)}</Routes>}
+      {<Routes>{getRoutes(routes, user.role)}</Routes>}
     </AuthContext.Provider>
   );
 }
 export { AuthContext, AuthProvider };
+

@@ -66,7 +66,7 @@ const TimelineLeft = ({ data = [] }) => {
                       width={140}
                       height={120}
                       alt="invoice.pdf"
-                      src={"http://localhost:8083" + img}
+                      src={process.env.REACT_APP_BACKEND_URL + img}
                     />
                   </CardContent>
                 </Card>

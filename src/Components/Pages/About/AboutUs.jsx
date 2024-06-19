@@ -35,8 +35,10 @@ export default function AboutUs() {
           <br />
         </CustomCard>
       </Grid>
-      <Grid item style={{ height: "inherit", width: "50%" }}>
-        <GoogleMap />
+      <Grid item style={{ height: "calc(100% - 20px)", width: "533px" }}>
+      <CustomCard className="about-us" style={{height: "inherit",padding:'0px'}}>
+        <GoogleMap height="100%" />
+        </CustomCard>
       </Grid>
     </Grid>
   );

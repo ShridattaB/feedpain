@@ -5,8 +5,8 @@ import CardContent from "@mui/material/CardContent";
 import "./card.css";
 export default function Card({ children, className, style }) {
   return (
-    <CustomCard className={`${className} custom-card`} style={style}>
-      <CardContent className="custom-card-content">{children}</CardContent>
+    <CustomCard className={`${className} custom-card`} style={{...style,borderRadius:'28px'}}>
+      <CardContent className={"custom-card-content"}>{children}</CardContent>
     </CustomCard>
   );
 }

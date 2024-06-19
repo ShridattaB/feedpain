@@ -1,3 +1,5 @@
-export const isAuthenticated=()=>{
-    return !!localStorage.getItem('accessToken')
+import { getTokenFromLocalStorage } from "."
+
+export const isAuthenticated = () => {
+    return !!getTokenFromLocalStorage()
 }

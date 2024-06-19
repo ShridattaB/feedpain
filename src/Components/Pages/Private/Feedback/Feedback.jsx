@@ -8,9 +8,10 @@ import PageHeader from "./../../../Layouts/page-header/index";
 
 import Table from "./../../../Table/Table";
 
-import { Avatar, AvatarGroup, Button, Tooltip, styled } from "@mui/material";
+import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { isEmpty, statusColor } from "../../../../Utils";
+import CustomButton from "../../../CustomButton/CustomButton";
 import CustomChip from "../../../CustomChip/CustomChip";
 import CustomDialog from "../../../Diloag/CustomDialog";
 import CustomForm from "../../../Form/CustomForm/CustomForm";
@@ -36,9 +37,11 @@ export default function Feedback() {
     event.preventDefault();
     setError({});
     const data = new FormData(event.currentTarget);
+
     const err = validation(data);
     setError(err);
     if (isEmpty(err)) {
+      console.log(data)
       createFeedback(data).then(() =>
         getFeedback().then((res) => {
           setFeedbackList(res);
@@ -58,9 +61,9 @@ export default function Feedback() {
           </Typography>
         }
         action={
-          <Button size="sm" variant="contained" fullWidth onClick={setShow}>
+          <CustomButton size="sm" variant="contained" fullWidth onClick={setShow}>
             Create Feedback
-          </Button>
+          </CustomButton>
         }
       />
       <Table
@@ -102,15 +105,13 @@ export default function Feedback() {
                   }}
                 >
                   {typeof JSON.parse(value) === "object" &&
-                    JSON.parse(value)?.map((item, index) => (
-                      <Tooltip key={index} title={item.index}>
-                        <Avatar
-                          key={index}
-                          alt={item.index}
-                          src={"http://localhost:8083" + item}
-                        />
-                      </Tooltip>
-                    ))}
+                    JSON.parse(value)?.map((item, index) => item && <Tooltip key={index} title={item.index}>
+                      <Avatar
+                        key={index}
+                        alt={item.index}
+                        src={process.env.REACT_APP_BACKEND_URL + item}
+                      />
+                    </Tooltip>)}
                 </AvatarGroup>
               ) : (
                 <></>
@@ -118,7 +119,7 @@ export default function Feedback() {
           },
           {
             id: "feedbackStatuses",
-            label: "Feedback Status",
+            label: "Status",
             align: "center",
             format: (value) => (
               <CustomChip color={statusColor[value[0]?.status?.id || 0]}>
@@ -128,7 +129,7 @@ export default function Feedback() {
           },
           {
             id: "view",
-            label: "View Feedback",
+            label: "View",
             format: (value) => (
               <VisibilityIcon
                 sx={{ color: "#298dad", cursor: "pointer" }}

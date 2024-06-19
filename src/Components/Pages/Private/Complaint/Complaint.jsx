@@ -8,9 +8,10 @@ import PageHeader from "./../../../Layouts/page-header/index";
 
 import Table from "./../../../Table/Table";
 
-import { Avatar, AvatarGroup, Button, Tooltip, styled } from "@mui/material";
+import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { isEmpty, statusColor } from "../../../../Utils";
+import CustomButton from "../../../CustomButton/CustomButton";
 import CustomChip from "../../../CustomChip/CustomChip";
 import CustomDialog from "../../../Diloag/CustomDialog";
 import CustomForm from "../../../Form/CustomForm/CustomForm";
@@ -56,9 +57,9 @@ export default function Complaint() {
           </Typography>
         }
         action={
-          <Button size="sm" variant="contained" fullWidth onClick={setShow}>
+          <CustomButton size="sm" variant="contained" fullWidth onClick={setShow}>
             Create Complaint
-          </Button>
+          </CustomButton>
         }
       />
       <Table
@@ -105,7 +106,7 @@ export default function Complaint() {
                         <Avatar
                           key={index}
                           alt={item.index}
-                          src={"http://localhost:8083" + item}
+                          src={process.env.REACT_APP_BACKEND_URL + item}
                         />
                       </Tooltip>
                     ))}

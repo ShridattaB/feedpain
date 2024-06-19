@@ -26,7 +26,7 @@ const MuiBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const TabList = styled(MuiTabList)(({}) => ({
+const TabList = styled(MuiTabList)(({ }) => ({
   minHeight: 40,
   "& .MuiTabs-flexContainer": {
     flexDirection: "column",
@@ -57,19 +57,27 @@ const data = {
     // payment
     payment: {
       id: "payment",
-      title: "Payment",
+      title: "FeedPain",
       icon: "bx:credit-card",
-      subtitle: "Get help with payment",
+      subtitle: "Get help with FeedPain",
       qandA: [
         {
           id: "order-payment",
-          question: "When is payment taken for my order?",
+          question: "How do I get started with FeedPain as a new user?",
           answer:
-            "Payment is taken during the checkout process when you pay for your order. The order number that appears on the confirmation screen indicates payment has been successfully processed.",
+            <><p>To get started, follow these steps:
+              <ol>
+                <li><b>Registration:</b>Visit the registration page and create a new account by providing the necessary information.</li>
+
+                <li><b>Login:</b>Use your credentials to log in to the system.</li>
+                <li><b>Navigation:</b> Once logged in, navigate through the dashboard to access different features.</li>,
+              </ol>
+              </p>
+              </>
         },
         {
           id: "order",
-          question: "How do I pay for my order?",
+          question: "Can I attach files to my feedback or complaints?",
           answer:
             "We accept Visa®, MasterCard®, American Express®, and PayPal®. Our servers encrypt all information submitted to them, so you can be confident that your credit card information will be kept safe and secure.",
         },
@@ -94,62 +102,47 @@ const data = {
         },
       ],
     },
-
+ // cancellation and return
+ cancellationReturn: {
+  icon: "bx:rotate-left",
+  id: "cancellation-return",
+  title: "complaint",
+  subtitle: "Get help with complaint",
+  qandA: [
+    {
+      id: "cancel-order",
+      question: "How do I track the status of my complaint?",
+      answer:
+        `1. **Login:** Log in to your account.
+2. **Navigate to Complaints:** Go to the 'Complaints' section.
+3. **View Status:** Check the status of your submitted complaints in the list provided.`,
+    },
+    
+  ],
+},
     // delivery
     delivery: {
-      id: "delivery",
-      title: "Delivery",
+      id: "feedback",
+      title: "Feedback",
       icon: "bx:cart",
-      subtitle: "Get help with delivery",
+      subtitle: "Get help with Feedback",
       qandA: [
         {
           id: "ship-order",
-          question: "How would you ship my order?",
+          question: "How do I submit feedback?",
           answer:
-            "For large products, we deliver your product via a third party logistics company offering you the “room of choice” scheduled delivery service. For small products, we offer free parcel delivery.",
-        },
-        {
-          id: "delivery-cost",
-          question: "What is the delivery cost of my order?",
-          answer:
-            "The cost of scheduled delivery is $69 or $99 per order, depending on the destination postal code. The parcel delivery is free.",
-        },
-        {
-          id: "product-damaged",
-          question: "What to do if my product arrives damaged?",
-          answer:
-            "We will promptly replace any product that is damaged in transit. Just contact our support team, to notify us of the situation within 48 hours of product arrival.",
-        },
+            <>
+            <ol>
+              <li><b>Login:</b>Log in to your account.</li>
+              <li><b>Navigate to Feedback:</b>Go to the 'Feedback' section.</li>
+              <li><b>Submit Feedback:</b>Fill in the feedback form, attach any necessary files, and submit.</li>
+            </ol> 
+            </>
+        }, 
       ],
     },
 
-    // cancellation and return
-    cancellationReturn: {
-      icon: "bx:rotate-left",
-      id: "cancellation-return",
-      title: "Cancellation & Return",
-      subtitle: "Get help with cancellation & return",
-      qandA: [
-        {
-          id: "cancel-order",
-          question: "Can I cancel my order?",
-          answer:
-            "Scheduled delivery orders can be cancelled 72 hours prior to your selected delivery date for full refund. Parcel delivery orders cannot be cancelled, however a free return label can be provided upon request.",
-        },
-        {
-          id: "product-return",
-          question: "Can I return my product?",
-          answer:
-            "You can return your product within 15 days of delivery, by contacting our support team, All merchandise returned must be in the original packaging with all original items.",
-        },
-        {
-          id: "return-status",
-          question: "Where can I view status of return?",
-          answer:
-            "Locate the item from Your Orders. Select Return/Refund status",
-        },
-      ],
-    },
+   
 
     // my orders
     myOrders: {

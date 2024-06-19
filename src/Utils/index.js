@@ -1,3 +1,18 @@
+export async function isServerUp(url) {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    if (response.ok) {
+      console.log(`Server is up. Status: ${response.status}`);
+      return true;
+    } else {
+      console.log(`Server responded but not OK. Status: ${response.status}`);
+      return false;
+    }
+  } catch (error) {
+    console.error(`Failed to fetch from the server. Error: ${error.message}`);
+    return false;
+  }
+}
 export const months = [
   "JAN",
   "FEB",
@@ -34,9 +49,12 @@ export const getChartData = () => {
 export const getUserData = () => {
   return parseJwt();
 };
+export function getTokenFromLocalStorage() {
+  return localStorage.getItem("accessToken");
+}
 export function parseJwt() {
   try {
-    const token = localStorage.getItem("accessToken");
+    const token = getTokenFromLocalStorage();
     if (!token) return null;
     var base64Url = token.split(".")[1];
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -65,7 +83,7 @@ export function isEmpty(obj) {
 
   return true;
 }
-export   const statusColor = {
+export const statusColor = {
   1: `primary`,
   5: `secondary`,
   4: `success`,
@@ -73,3 +91,8 @@ export   const statusColor = {
   2: `warning`,
   3: `info`,
 };
+
+export const formateDate = (date = new Date()) => {
+  const d = new Date(date);
+  return d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear()
+}

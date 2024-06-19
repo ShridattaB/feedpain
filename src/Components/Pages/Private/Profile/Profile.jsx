@@ -1,12 +1,11 @@
-import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getUserData } from "../../../../Utils";
 import CustomDialog from "../../../Diloag/CustomDialog";
 import CustomForm from "../../../Form/CustomForm/CustomForm";
 import UserProfileHeader from "../../../Layouts/profile/UserProfileHeader";
-import { getCountryList, getStateList } from "./../../Landing/apiCall";
+import { getCityList, getCountryList, getStateList } from "./../../Landing/apiCall";
 import { getUserProfile } from "./apiCall";
 import "./profile.css";
 
@@ -15,58 +14,43 @@ const Profile = () => {
   const [user, setUser] = useState({});
   const [country, setCountry] = useState([]);
   const [stateList, setStateList] = useState([]);
+  const [cityList, setCityList] = useState([]);
   const { state } = useLocation();
 
   useEffect(() => {
-    if (state) {
-      setUser(state.user);
-      return;
-    }
     const { sub } = getUserData();
     getUserProfile(sub).then((res) => {
-      if (res) {
-        setUser(res);
-        getCountryList().then((response) => {
-          if (response?.status === "Success") {
-            setCountry(response.data);
-            if (res.state) {
-              const id = response.data?.find((x) => x.name === res.country).id;
-              getStateList(id).then((response) => {
-                if (response?.status === "Success") setStateList(response.data);
-              });
+      setUser(res);
+      getCountryList().then((response) => {
+        if (response?.status === "Success")
+          setCountry(response.data);
+        if (res.state) {
+          const id = response.data?.find((x) => x.name === res.country).id;
+          getStateList(id).then((response) => {
+            if (response?.status === "Success")
+              setStateList(response.data)
+
+
+            if (res.city) {
+              const id = response.data?.find((x) => x.name === res.state).id;
+              getCityList(id).then((response) => {
+                if (response?.status === "Success")
+                  setCityList(response.data)
+              })
             }
-          }
-        });
-      }
-    });
+          })
+        }
+
+      })
+    })
   }, []);
-  useEffect(() => {
-    if (state) return;
-    const { sub } = getUserData();
-    getUserProfile(sub).then((res) => {
-      if (res) {
-        setUser(res);
-        getCountryList().then((response) => {
-          if (response?.status === "Success") {
-            setCountry(response.data);
-            if (res.state) {
-              const id = response.data?.find((x) => x.name === res.country).id;
-              getStateList(id).then((response) => {
-                if (response?.status === "Success") setStateList(response.data);
-              });
-            }
-          }
-        });
-      }
-    });
-  }, [state]);
   const renderList = (arr) => {
     if (arr) {
       return Object.keys(arr).map((item, index) => {
         if (["id", "profileUrl", "firstName", "lastName"].includes(item))
           return;
         return (
-          <Grid item xs={12} lg={6} md={6}>
+          <Grid item xs={12} lg={6} md={6} key={index}>
             <Box
               key={index}
               sx={{
@@ -143,15 +127,20 @@ const Profile = () => {
     }
   };
 
-  const MyCard = styled(Card)(({ theme }) => ({
-    [theme.breakpoints.up("sm")]: {
-      height: "inherit",
-    },
-  }));
-  const handleChange = (id) => {
-    getStateList(id).then((response) => {
+
+  const handleCountryChange = (e) => {
+    e.preventDefault()
+    console.log(e)
+    getStateList(e.target.value).then((response) => {
       if (response?.status === "Success") setStateList(response.data);
     });
+  };
+  const handleStateChange = (e) => {
+    e.preventDefault()
+
+  };
+  const handleCityChange = (e) => {
+    e.preventDefault()
   };
   return (
     <Grid container spacing={2} className="profile">
@@ -168,15 +157,11 @@ const Profile = () => {
         className="profile-data"
         height={"calc(100vh - 508px);"}
       >
-        <MyCard>
-          <CardContent>
-            <Grid container width={"100%"} height={"100%"}>
-              {renderList(user)}
-            </Grid>
-          </CardContent>
-        </MyCard>
+        <Grid container width={"100%"} height={"100%"}>
+          {renderList(user)}
+        </Grid>
       </Grid>
-      {country.length && (
+      {country.length !== 0 && (
         <CustomDialog
           show={show}
           setShow={setShow}
@@ -190,12 +175,13 @@ const Profile = () => {
                   type: "text",
                   value: user.firstName,
                   disabled: true,
+                  gridCol: 6
                 },
                 {
                   name: "lastName",
                   type: "text",
                   value: user.lastName,
-                  disabled: true,
+                  disabled: true, gridCol: 6
                 },
                 {
                   name: "course",
@@ -204,7 +190,7 @@ const Profile = () => {
                   titleLabel: [],
                   options: [],
                   label: "course",
-                  selected: user.course,
+                  selected: user.course, gridCol: 6
                 },
                 {
                   name: "country",
@@ -214,7 +200,8 @@ const Profile = () => {
                   options: country,
                   label: "country",
                   value: user.country,
-                  handleChange: handleChange,
+                  handleChange: handleCountryChange,
+                  gridCol: 6
                 },
                 {
                   name: "state",
@@ -224,18 +211,25 @@ const Profile = () => {
                   titleLabel: [],
                   options: stateList,
                   label: "state",
-                  handleChange: handleChange,
+                  handleChange: handleStateChange,
+                  gridCol: 6
                 },
-                { name: "city", type: "select", value: user.city },
+                {
+                  name: "city", type: "select",
+                  valueLabel: "id",
+                  titleLabel: [],
+                  options: cityList,
+                  value: user.city, gridCol: 6, handleChange: handleCityChange
+                },
                 {
                   name: "email",
                   type: "text",
                   value: user.email,
-                  disabled: true,
+                  disabled: true, gridCol: 6
                 },
-                { name: "mobileNo", type: "text", value: user.mobileNo },
+                { name: "mobileNo", type: "text", value: user.mobileNo, gridCol: 6 },
               ]}
-              onSubmit={() => {}}
+              onSubmit={() => { }}
               submitLabel="Edit"
             />
           }

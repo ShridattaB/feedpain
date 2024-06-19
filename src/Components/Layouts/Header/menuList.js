@@ -1,5 +1,5 @@
 export const user = {
-  right: [
+  left: [
     { title: "Home", path: "user/home", icon: "" },
     {
       title: "Feedback",
@@ -8,10 +8,10 @@ export const user = {
     },
     { title: "Complaint", path: "user/complaint", icon: "" },
   ],
-  left: [{ title: "Profile", path: "user/profile", icon: "" }],
+  right: [{ title: "Profile", path: "user/profile", icon: "" }],
 };
 export const admin = {
-  right: [
+  left: [
     { title: "Home", path: "/admin/home", icon: "" },
     {
       title: "Feedback",
@@ -21,15 +21,15 @@ export const admin = {
     { title: "Complaint", path: "admin/complaint", icon: "" },
     { title: "User List", path: "admin/user-list", icon: "" },
   ],
-  left: [{ title: "Profile", path: "admin/profile", icon: "" }],
+  right: [{ title: "Profile", path: "admin/profile", icon: "" }],
 };
 export const visitor = {
-  right: [
+  left: [
     { title: "Home", path: "/", icon: "" },
     { title: "About", path: "/about-us", icon: "" },
     { title: "FAQ", path: "/FAQ", icon: "" },
   ],
-  left: [
+  right: [
     { title: "Sign In", path: "sign-in", icon: "" },
     { title: "Sign Up", path: "sign-up", icon: "" },
   ],

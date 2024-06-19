@@ -5,8 +5,8 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import "./customselect.css";
 import React from "react";
+import "./customselect.css";
 
 export default function CustomSelect({
   error,
@@ -14,13 +14,14 @@ export default function CustomSelect({
   name,
   label,
   selected,
-  handleChange = () => {},
+  handleChange = () => { },
   valueLabel = "id",
   titleLabel = [],
   width,
   margin,
   style,
 }) {
+  console.log(options)
   return (
     <FormControl className="custom-select">
       <InputLabel
@@ -45,6 +46,7 @@ export default function CustomSelect({
         <MenuItem value="">
           <em>None</em>
         </MenuItem>
+
         {options.map((option) => (
           <MenuItem value={option[valueLabel]}>
             {titleLabel

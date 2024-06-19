@@ -12,6 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { isServerUp } from "../../../Utils";
 import { useAuth } from "../../../hooks/useAuth";
 import MainLogo from "../../SVGS/MainLogo";
 import ToggleColorMode from "./ToggleColorMode";
@@ -24,6 +25,7 @@ const logoStyle = {
 };
 
 export default function Header({ mode, toggleColorMode }) {
+  const [isOnline, setOnline] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [menu, setMenu] = useState(visitor);
   const location = useLocation();
@@ -36,6 +38,9 @@ export default function Header({ mode, toggleColorMode }) {
     navigate(path);
   };
   const userRole = user.role;
+  useEffect(() => {
+    isServerUp(process.env.REACT_APP_BACKEND_URL + "/public/test").then(val => setOnline(val))
+  }, [])
   useEffect(() => {
     switch (userRole) {
       case "Admin":
@@ -91,8 +96,10 @@ export default function Header({ mode, toggleColorMode }) {
             >
               <MainLogo />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                {menu.right.map((menu) => (
+
+                {menu.left.map((menu, index) => (
                   <MenuItem
+                    key={index}
                     selected={location.pathname.replace("/", "") === menu.path}
                     onClick={() => redirectTo(menu.path)}
                     sx={{ py: "6px", px: "12px" }}
@@ -112,8 +119,10 @@ export default function Header({ mode, toggleColorMode }) {
               }}
             >
               {/* <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} /> */}
-              {menu.left.map((menu) => (
+              {menu.right.map((menu, index) => (
                 <MenuItem
+                  key={index}
+                  disabled={!isOnline}
                   onClick={() => redirectTo(menu.path)}
                   selected={location.pathname.replace("/", "") === menu.path}
                   sx={{ py: "6px", px: "12px" }}
@@ -168,15 +177,17 @@ export default function Header({ mode, toggleColorMode }) {
                       toggleColorMode={toggleColorMode}
                     />
                   </Box>
-                  {menu.right.map((menu) => (
-                    <MenuItem onClick={(e) => redirectTo(menu.path)}>
+                  {menu.right.map((menu, index) => (
+                    <MenuItem onClick={(e) => redirectTo(menu.path)}
+                      key={index}>
                       {menu.title}
                     </MenuItem>
                   ))}
 
                   <Divider />
-                  {menu.left.map((menu) => (
-                    <MenuItem>
+                  {menu.left.map((menu, index) => (
+                    <MenuItem
+                      key={index}>
                       <Button
                         sx={{ width: "100%" }}
                         onClick={(e) => redirectTo(menu.path)}

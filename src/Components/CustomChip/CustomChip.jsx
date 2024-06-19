@@ -11,7 +11,7 @@ const CustomChip = (props) => {
       variant="filled"
       {...props}
       sx={props.color && Object.assign(colors[props.color])}
-      label={props.children}
+      label={props.children || ""}
     />
   );
 };
