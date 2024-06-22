@@ -1,13 +1,25 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, styled } from "@mui/material";
 import React from "react";
 import CustomCard from "../../Card/Card";
 import GoogleMap from "../../Map/GoogleMap";
 
 export default function AboutUs() {
+  const StyledGrid = styled(Grid)(({ theme }) => ({
+    width: "50%",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+    }
+  }))
+  const StyledCustomCard = styled(CustomCard)(({ theme }) => ({
+    height: "inherit", padding: '0px',
+    [theme.breakpoints.down("md")]: {
+      width: "318px"
+    }
+  }))
   return (
     <Grid container style={{ height: "inherit" }}>
-      <Grid item style={{ width: "50%" }}>
-        <CustomCard className="about-us">
+      <StyledGrid item   >
+        <div style={{ padding: '48px' }}>
           <Typography variant="h5">
             Jayawant Shikshan Prasarak Mandal
           </Typography>
@@ -18,11 +30,9 @@ export default function AboutUs() {
             been established with the objective of creating centres of
             excellence for education.
           </Typography>
-        </CustomCard>
-        <br />
-        <CustomCard className="about-us">
+        </div>
+        <div style={{ padding: '48px' }}>
           <Typography variant="body2">
-            <br />
             Survy No.80,
             <br /> Pune-Mumbai Bypass Highway,
             <br /> Tathawade, Pune, Maharashtra 411033
@@ -31,14 +41,12 @@ export default function AboutUs() {
           <Typography variant="h7">Mobile No: 789986006</Typography>
           <br />
           <Typography variant="h7">Email: feedpain@yopmail.com</Typography>
-          <br />
-          <br />
-        </CustomCard>
-      </Grid>
-      <Grid item style={{ height: "calc(100% - 20px)", width: "533px" }}>
-      <CustomCard className="about-us" style={{height: "inherit",padding:'0px'}}>
-        <GoogleMap height="100%" />
-        </CustomCard>
+          <br /></div>
+      </StyledGrid>
+      <Grid item style={{ height: "calc(100% - 20px)" }} >
+        <StyledCustomCard className="about-us"  >
+          <GoogleMap height="100%" />
+        </StyledCustomCard>
       </Grid>
     </Grid>
   );

@@ -1,26 +1,29 @@
-import { Typography } from "@mui/material";
+import { styled } from "@mui/material";
 import React from "react";
-import Avatar from "../../Avatar/Avatar.jsx";
-import CustomCard from "./../Card.jsx";
 
 export default function FeedbackCard({
-  className,
-  style,
-  userName,
-  description,
-  profileImg,
+  data: { img, text }
 }) {
+  const FeedbackCardDiv = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    [theme.breakpoints.down("md")]: {
+      paddingTop: "20px",
+      flexDirection: "column",
+    },
+  }))
+  const FeedbackPCardDiv = styled('div')(({ theme }) => ({
+    fontFamily: "cursive", paddingLeft: '20px',
+    [theme.breakpoints.down("md")]: {
+      padding: "0px"
+    },
+  }))
   return (
-    <CustomCard className={`${className} feedback-card`} style={style}>
-      <div className="header">
-        <Avatar className="feedback-avatar" src={profileImg} />
-        <Typography variant="h6" color={"black"}>
-          {userName}
-        </Typography>
-      </div>
-      <Typography variant="h7" className="feedback-description">
-        {description}
-      </Typography>
-    </CustomCard>
+    <>
+      <FeedbackCardDiv >
+        <img src={img} style={{ borderRadius: "50%" }} />
+        <FeedbackPCardDiv  >{text}</FeedbackPCardDiv>
+      </FeedbackCardDiv>
+    </>
   );
 }

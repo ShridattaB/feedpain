@@ -1,7 +1,9 @@
 import "./faq.css";
 // ** MUI Imports
-import BlindsClosedIcon from "@mui/icons-material/BlindsClosed";
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import TabContext from "@mui/lab/TabContext";
 import MuiTabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -12,7 +14,6 @@ import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-
 // ** Custom Components Imports
 import { useState } from "react";
 import CustomAvatar from "./../../Avatar/Avatar";
@@ -20,7 +21,6 @@ import CustomAvatar from "./../../Avatar/Avatar";
 // Styled TabList component
 const MuiBox = styled(Box)(({ theme }) => ({
   display: "flex",
-  marginTop: theme.spacing(8),
   [theme.breakpoints.down("md")]: {
     flexDirection: "column",
   },
@@ -28,6 +28,7 @@ const MuiBox = styled(Box)(({ theme }) => ({
 
 const TabList = styled(MuiTabList)(({ }) => ({
   minHeight: 40,
+  marginTop: "54px",
   "& .MuiTabs-flexContainer": {
     flexDirection: "column",
   },
@@ -40,15 +41,14 @@ const TabList = styled(MuiTabList)(({ }) => ({
     flexDirection: "row",
     justifyContent: "flex-start",
     paddingTop: "0.625rem",
-    paddingBottom: "0.625rem",
     borderRadius: "6px",
     "& svg": {
       marginBottom: 0,
       marginRight: "0.5rem",
     },
     "&.Mui-selected": {
-      color: "#fff",
-      backgroundColor: "#696CFF",
+      color: "#016485",
+      backgroundColor: "#76c0d86b",
     },
   },
 }));
@@ -58,7 +58,7 @@ const data = {
     payment: {
       id: "payment",
       title: "FeedPain",
-      icon: "bx:credit-card",
+      icon: <img src="./small-logo.png" style={{ color: "#016485", width: "24px", marginBottom: "0px", marginRight: '8px' }} />,
       subtitle: "Get help with FeedPain",
       qandA: [
         {
@@ -72,8 +72,8 @@ const data = {
                 <li><b>Login:</b>Use your credentials to log in to the system.</li>
                 <li><b>Navigation:</b> Once logged in, navigate through the dashboard to access different features.</li>,
               </ol>
-              </p>
-              </>
+            </p>
+            </>
         },
         {
           id: "order",
@@ -81,50 +81,33 @@ const data = {
           answer:
             "We accept Visa®, MasterCard®, American Express®, and PayPal®. Our servers encrypt all information submitted to them, so you can be confident that your credit card information will be kept safe and secure.",
         },
-        {
-          id: "placing-order",
-          question: "What should I do if I'm having trouble placing an order?",
-          answer:
-            "For any technical difficulties you are experiencing with our website, please contact us at our support portal, or you can call us toll-free at 1-000-000-000, or email us at order@companymail.com",
-        },
-        {
-          id: "users-license",
-          question:
-            "Which license do I need for an end product that is only accessible to paying users?",
-          answer:
-            "If you have paying users or you are developing any SaaS products then you need an Extended License. For each products, you need a license. You can get free lifetime updates as well.",
-        },
-        {
-          id: "subscription-review",
-          question: "Does my subscription automatically renew?",
-          answer:
-            "No, This is not subscription based item.Pastry pudding cookie toffee bonbon jujubes jujubes powder topping. Jelly beans gummi bears sweet roll bonbon muffin liquorice. Wafer lollipop sesame snaps.",
-        },
       ],
     },
- // cancellation and return
- cancellationReturn: {
-  icon: "bx:rotate-left",
-  id: "cancellation-return",
-  title: "complaint",
-  subtitle: "Get help with complaint",
-  qandA: [
-    {
-      id: "cancel-order",
-      question: "How do I track the status of my complaint?",
-      answer:
-        `1. **Login:** Log in to your account.
-2. **Navigate to Complaints:** Go to the 'Complaints' section.
-3. **View Status:** Check the status of your submitted complaints in the list provided.`,
+    // cancellation and return
+    cancellationReturn: {
+      icon: <ReportProblemIcon style={{ color: "#016485", width: "24px" }} />,
+      id: "cancellation-return",
+      title: "complaint",
+      subtitle: "Get help with complaint",
+      qandA: [
+        {
+          id: "cancel-order",
+          question: "How do I track the status of my complaint?",
+          answer:
+            <ol>
+              <li><b>Login:</b>Log in to your account.</li>
+              <li><b>Navigate to Complaints:</b>Go to the 'Complaints' section.</li>
+              <li><b>View Status:</b>Check the status of your submitted complaints in the list provided.</li>
+            </ol>
+        },
+
+      ],
     },
-    
-  ],
-},
     // delivery
     delivery: {
       id: "feedback",
       title: "Feedback",
-      icon: "bx:cart",
+      icon: <FeedbackIcon style={{ color: "#016485", width: "24px" }} />,
       subtitle: "Get help with Feedback",
       qandA: [
         {
@@ -132,73 +115,36 @@ const data = {
           question: "How do I submit feedback?",
           answer:
             <>
-            <ol>
-              <li><b>Login:</b>Log in to your account.</li>
-              <li><b>Navigate to Feedback:</b>Go to the 'Feedback' section.</li>
-              <li><b>Submit Feedback:</b>Fill in the feedback form, attach any necessary files, and submit.</li>
-            </ol> 
+              <ol>
+                <li><b>Login:</b>Log in to your account.</li>
+                <li><b>Navigate to Feedback:</b>Go to the 'Feedback' section.</li>
+                <li><b>Submit Feedback:</b>Fill in the feedback form, attach any necessary files, and submit.</li>
+              </ol>
             </>
-        }, 
+        },
       ],
     },
-
-   
-
-    // my orders
-    myOrders: {
-      id: "my-orders",
-      title: "My Orders",
-      icon: "bx-cube",
-      subtitle: "Order details",
+    askQuestion: {
+      id: "ask",
+      title: "Ask",
+      icon: <RateReviewIcon style={{ color: "#016485", width: "24px" }} />,
+      subtitle: "Ask What you have!",
       qandA: [
         {
-          id: "order-success",
-          question: "Has my order been successful?",
+          id: "ship-order",
+          question: "How do I Can Ask What i have?",
           answer:
-            "All successful order transactions will receive an order confirmation email once the order has been processed. If you have not received your order confirmation email within 24 hours, check your junk email or spam folder. Alternatively, log in to your account to check your order summary. If you do not have a account, you can contact our Customer Care Team on 1-000-000-000.",
-        },
-        {
-          id: "promo-code",
-          question: "My Promotion Code is not working, what can I do?",
-          answer:
-            "If you are having issues with a promotion code, please contact us at 1 000 000 000 for assistance.",
-        },
-        {
-          id: "track-orders",
-          question: "How do I track my Orders?",
-          answer:
-            "If you have an account just sign into your account from here and select “My Orders”. If you have a a guest account track your order from here using the order number and the email address.",
+            <>
+              <ol>
+                <li><b>Mail:</b>feedpain@yopmail.com.</li>
+                <li><b>Subject:</b>Subject ot question.</li>
+                <li><b>Body:</b>ask what you have on mind reply will be responded within working days.</li>
+              </ol>
+            </>
         },
       ],
     },
 
-    // product and services
-    productServices: {
-      icon: "bx:cog",
-      id: "product-services",
-      title: "Product & Services",
-      subtitle: "Get help with product & services",
-      qandA: [
-        {
-          id: "shipping-notification",
-          question: "Will I be notified once my order has shipped?",
-          answer:
-            "Yes, We will send you an email once your order has been shipped. This email will contain tracking and order information.",
-        },
-        {
-          id: "warranty-notification",
-          question: "Where can I find warranty information?",
-          answer:
-            "We are committed to quality products. For information on warranty period and warranty services, visit our Warranty section here.",
-        },
-        {
-          id: "warranty-coverage",
-          question: "How can I purchase additional warranty coverage?",
-          answer:
-            "For the peace of your mind, we offer extended warranty plans that add additional year(s) of protection to the standard manufacturer’s warranty provided by us. To purchase or find out more about the extended warranty program, visit Extended Warranty section here.",
-        },
-      ],
-    },
   },
 };
 const FAQ = () => {
@@ -210,6 +156,7 @@ const FAQ = () => {
         <TabPanel
           key={tab.id}
           value={tab.id}
+          style={{ marginTop: "48px" }}
           sx={{
             p: 0,
             border: 0,
@@ -225,8 +172,9 @@ const FAQ = () => {
                 skin="light"
                 variant="rounded"
                 sx={{ height: 42, width: 42 }}
+                style={{ backgroundColor: "#76c0d86b" }}
               >
-                <BlindsClosedIcon />
+                {tab.icon}
               </CustomAvatar>
               <Box sx={{ ml: 4 }}>
                 <Typography variant="h5">{tab.title}</Typography>
@@ -268,7 +216,7 @@ const FAQ = () => {
               key={tab.id}
               value={tab.id}
               label={tab.title}
-              icon={<BlindsClosedIcon />}
+              icon={tab.icon}
             />
           );
         } else {
@@ -281,7 +229,9 @@ const FAQ = () => {
   };
 
   return (
-    <MuiBox className="faq" style={{ marginTop: "14px", height: "100%" }}>
+    <MuiBox className="faq" style={{
+      height: "calc(100vh - 116px)", marginInline: "34px", marginTop: "0px"
+    }}>
       <TabContext value={activeTab}>
         <Box
           sx={{
