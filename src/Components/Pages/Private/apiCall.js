@@ -5,10 +5,10 @@ export const getFeedback = async () => {
     if (res.status === 200) {
         const { data, status } = res?.data;
         if (status === "Success") {
-            return data;
+            return data || [];
         }
     }
- }
+}
 export const createFeedback = async (data) => {
     const bodyContent = {};
     const uploadPromises = [];
@@ -32,9 +32,9 @@ export const createFeedback = async (data) => {
             bodyContent[result.key] = [];
         }
         bodyContent[result.key].push(result.url);
-    });  
-      // Stringify the attachment array if it exists
-      if (bodyContent["attachment"]) {
+    });
+    // Stringify the attachment array if it exists
+    if (bodyContent["attachment"]) {
         bodyContent["attachment"] = JSON.stringify(bodyContent["attachment"]);
     }
     const res = await axios.post("/feedback/save", bodyContent);
@@ -59,7 +59,7 @@ export const uploadImage = async (data, count) => {
             .replaceAll(",", "") + `_${count}`
     );
     formData.append("file", data);
-    const response =await axios.post("/public/upload", formData);
+    const response = await axios.post("/public/upload", formData);
     return await response?.data?.value;
 }
 export const getComplaint = async () => {
@@ -70,8 +70,8 @@ export const getComplaint = async () => {
             return data;
         }
     }
- }
- export const createComplaint  = async (data) => {
+}
+export const createComplaint = async (data) => {
     const bodyContent = {};
     const uploadPromises = [];
     let attCount = 0;
@@ -94,9 +94,9 @@ export const getComplaint = async () => {
             bodyContent[result.key] = [];
         }
         bodyContent[result.key].push(result.url);
-    });  
-      // Stringify the attachment array if it exists
-      if (bodyContent["attachment"]) {
+    });
+    // Stringify the attachment array if it exists
+    if (bodyContent["attachment"]) {
         bodyContent["attachment"] = JSON.stringify(bodyContent["attachment"]);
     }
     const res = await axios.post("/complaint/save", bodyContent);
@@ -107,7 +107,7 @@ export const getComplaint = async () => {
         }
     }
 }
-export const  getListOfUsers = async() => {
+export const getListOfUsers = async () => {
     const res = await axios.get("/user/");
     if (res.status === 200) {
         const { data, status } = res?.data;
