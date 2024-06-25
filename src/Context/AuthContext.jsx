@@ -48,7 +48,7 @@ function AuthProvider() {
       const path = user.role ? `${user.role.toLowerCase()}/home` : "/";
       if (location.pathname !== "/" + path) {
         navigate(path);
-        window && window.location.reload();
+        // window && window.location.reload();
       }
     } else {
       const token = getTokenFromLocalStorage()

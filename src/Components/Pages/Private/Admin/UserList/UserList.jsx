@@ -2,30 +2,27 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   Avatar,
   AvatarGroup,
-  Button,
   List,
-  ListItem,
   ListItemButton,
   ListItemText,
   Popover,
   Tooltip,
   Typography,
-  styled,
+  styled
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { formateDate } from '../../../../../Utils';
 import { useAuth } from "../../../../../hooks/useAuth";
 import PageHeader from "../../../../Layouts/page-header";
-import { getListOfUsers } from "../../apiCall";
-import Table from "./../../../../Table/Table";
-import CustomDialog from '../../../../Diloag/CustomDialog';
-import CustomForm from '../../../../Form/CustomForm/CustomForm';
-import { formateDate } from '../../../../../Utils';
+import { changeRoleAPI, getListOfUsers } from "../../apiCall";
 import { getUserRole } from '../api';
+import Table from "./../../../../Table/Table";
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([])
   const [show, setShow] = React.useState(false);
+  const [selectedUSer, setSelectedUSer] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -35,18 +32,26 @@ export default function UserList() {
     color: "#026584",
   }));
   useEffect(() => {
-    getUserRole().then(res=>{setRoles(res.data)})
+    getUserRole().then(res => { setRoles(res.data) })
     getListOfUsers().then((res) => {
       setUsers(res);
     });
   }, []);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
     setAnchorEl(null);
   };
+  const changeRole = (e) => {
+    e.preventDefault()
+    changeRoleAPI({ userId: selectedUSer.id, role: selectedUSer.roleBean.id === 1 ? 2 : 1 }).then(() => {
+      getListOfUsers().then((res) => {
+        setUsers(res);
+      });
+    })
+    setShow(false)
+    handleClose()
+
+  }
   return (
     <>
       <PageHeader
@@ -119,7 +124,7 @@ export default function UserList() {
           {
             id: "courseBean",
             label: "course",
-            format: (value) => value.name,
+            format: (value) => `${value.name} (${value.year})`,
           },
           { id: "createdAt", label: "Joined on", format: value => formateDate(value) },
           {
@@ -131,9 +136,7 @@ export default function UserList() {
                 sx={{ color: "#298dad", cursor: "pointer" }}
                 onClick={(event) => {
                   setAnchorEl(event.currentTarget);
-                  // navigate("/" + user.role.toLowerCase() + "/profile", {
-                  //   state: { user: value, isProps: true },
-                  // });
+                  setSelectedUSer(value)
                 }}
               /><Popover
                 id={id}
@@ -150,19 +153,20 @@ export default function UserList() {
                 }}
               >
                 <List>
-                  <ListItemButton component="a" href="#simple-list" onClick={(e) => {
+                  <ListItemButton onClick={(e) => {
                     navigate("/" + user.role.toLowerCase() + "/profile", {
                       state: { user: value, isProps: true },
                     });
                   }}>
                     <ListItemText primary="View" />
                   </ListItemButton>
-                  <ListItemButton component="a" href="#simple-list" onClick={(e) => {
-                    setShow(true)
+                  <ListItemButton onClick={(e) => {
+                    e.preventDefault()
+                    changeRole(e)
                   }}>
-                    <ListItemText primary="Change Role" />
+                    <ListItemText primary={selectedUSer?.roleBean?.id === 1 ? "Change Role As Admin" : "Change Role As User"} />
                   </ListItemButton>
-                  <ListItemButton component="a" href="#simple-list" onClick={(e) => {
+                  <ListItemButton onClick={(e) => {
                   }}>
                     <ListItemText primary="Block User" />
                   </ListItemButton>
@@ -172,20 +176,23 @@ export default function UserList() {
           },
         ]}
       />
-      <CustomDialog
+      {/* <CustomDialog
         dialogTitle="Change Role"
         show={show}
         setShow={setShow}
-        dialogContentComponent={<CustomForm formField={[{
-          name: "role",
-          type: "select",
-          valueLabel: "id",
-          titleLabel: ["role"],
-          options: roles,
-          label: "role", 
-          submitLabel:"update"
-        }]} />} 
-      />
+        handelClose={(e) => {
+          setSelectedUSer(null)
+          handleClose()
+        }}
+        dialogContentComponent={<div style={{ margin: "10px" }}>
+          <Select fullWidth defaultValue={selectedUSer?.roleBean?.id}>
+            <MenuItem id="user" value="1">User</MenuItem>
+            <MenuItem id="admin" value="2">Admin</MenuItem>
+          </Select>
+        </div>}
+        dialogActionsComponent={<CustomButton label={"Change"} onClick={changeRole} />}
+      /> */}
+
 
     </>
   );

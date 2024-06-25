@@ -4,9 +4,9 @@ import CustomSelect from "../../../Components/Select/CustomSelect";
 import CustomButton from "../../CustomButton/CustomButton";
 import ImageInput from "../ImageInput/ImageInput";
 import InputText from "./../InputText/InputText";
-const CustomForm = ({ formField = [], submitLabel, handleSubmit }) => {
+const CustomForm = ({ formField = [], submitLabel, handleSubmit, id }) => {
   return (
-    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+    <Box component="form" id={id} onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
       <Grid container>
         {formField.map(
           ({
@@ -24,7 +24,8 @@ const CustomForm = ({ formField = [], submitLabel, handleSubmit }) => {
             handleChange,
             multiline,
             titleLabel,
-            gridCol = 12
+            gridCol = 12,
+            showNone
           }, index) => {
             switch (type) {
               case "image":
@@ -57,8 +58,9 @@ const CustomForm = ({ formField = [], submitLabel, handleSubmit }) => {
                       name={id || name}
                       label={label || name}
                       error={!!error}
+                      showNone={showNone}
                       // helperText={error.state}
-                      titleLabel={titleLabel && titleLabel.length || ["name"]}
+                      titleLabel={titleLabel && titleLabel.length ? titleLabel : ["name"]}
                       options={options}
                       selected={options?.find((x) => x.name === value)?.id}
                       handleChange={handleChange}

@@ -11,6 +11,7 @@ import Table from "./../../../Table/Table";
 import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { isEmpty, statusColor } from "../../../../Utils";
+import { useAuth } from "../../../../hooks/useAuth";
 import CustomButton from "../../../CustomButton/CustomButton";
 import CustomChip from "../../../CustomChip/CustomChip";
 import CustomDialog from "../../../Diloag/CustomDialog";
@@ -22,6 +23,8 @@ const TypographyStyled = styled(Typography)(({ theme }) => ({
 }));
 
 export default function Complaint() {
+  const { user } = useAuth();
+  const role = user.role;
   const [show, setShow] = useState(false);
   const [complaintList, setComplaintList] = useState([]);
   const navigate = useNavigate();
@@ -132,7 +135,7 @@ export default function Complaint() {
               <VisibilityIcon
                 sx={{ color: "#298dad", cursor: "pointer" }}
                 onClick={(e) => {
-                  navigate("/user/complaint/view", {
+                  navigate(`/${role}/complaint/view`, {
                     state: { isComplaint: true, data: value },
                   });
                 }}

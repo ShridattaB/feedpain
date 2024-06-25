@@ -11,6 +11,7 @@ import Table from "./../../../Table/Table";
 import { Avatar, AvatarGroup, Tooltip, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { isEmpty, statusColor } from "../../../../Utils";
+import { useAuth } from "../../../../hooks/useAuth";
 import CustomButton from "../../../CustomButton/CustomButton";
 import CustomChip from "../../../CustomChip/CustomChip";
 import CustomDialog from "../../../Diloag/CustomDialog";
@@ -22,6 +23,8 @@ const TypographyStyled = styled(Typography)(({ theme }) => ({
 }));
 
 export default function Feedback() {
+  const { user } = useAuth();
+  const role = user.role;
   const [error, setError] = useState({});
   const [show, setShow] = useState(false);
   const [feedbackList, setFeedbackList] = useState([]);
@@ -134,7 +137,8 @@ export default function Feedback() {
               <VisibilityIcon
                 sx={{ color: "#298dad", cursor: "pointer" }}
                 onClick={(e) => {
-                  navigate("/user/feedback/view", {
+
+                  navigate(`/${role}/feedback/view`, {
                     state: { isFeedback: true, data: value },
                   });
                 }}
