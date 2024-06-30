@@ -117,5 +117,8 @@ export const getListOfUsers = async () => {
     }
 }
 export const changeRoleAPI = async (data) => {
-    return await axios.post("/user/change-user-role", data);
+    return await axios.post("/user/change-role", data);
+}
+export const blockUnBlock = async (userId) => {
+    return await axios.get("/user/block-unblock?userId" + userId);
 }

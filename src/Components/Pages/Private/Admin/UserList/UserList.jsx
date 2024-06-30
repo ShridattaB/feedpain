@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { formateDate } from '../../../../../Utils';
 import { useAuth } from "../../../../../hooks/useAuth";
 import PageHeader from "../../../../Layouts/page-header";
-import { changeRoleAPI, getListOfUsers } from "../../apiCall";
+import { blockUnBlock, changeRoleAPI, getListOfUsers } from "../../apiCall";
 import { getUserRole } from '../api';
 import Table from "./../../../../Table/Table";
 export default function UserList() {
@@ -50,7 +50,11 @@ export default function UserList() {
     })
     setShow(false)
     handleClose()
-
+  }
+  const blockUnBlockCall = () => {
+    blockUnBlock(selectedUSer.id)
+    setShow(false)
+    handleClose()
   }
   return (
     <>
@@ -160,13 +164,15 @@ export default function UserList() {
                   }}>
                     <ListItemText primary="View" />
                   </ListItemButton>
-                  <ListItemButton onClick={(e) => {
+                  {console.log(selectedUSer, user?.id)}
+                  <ListItemButton disabled={parseInt(selectedUSer?.id) == parseInt(user.id)} onClick={(e) => {
                     e.preventDefault()
                     changeRole(e)
                   }}>
                     <ListItemText primary={selectedUSer?.roleBean?.id === 1 ? "Change Role As Admin" : "Change Role As User"} />
                   </ListItemButton>
                   <ListItemButton onClick={(e) => {
+                    blockUnBlockCall()
                   }}>
                     <ListItemText primary="Block User" />
                   </ListItemButton>
