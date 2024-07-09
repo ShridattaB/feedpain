@@ -15,14 +15,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-
-// ** Icon Imports
-// import Icon from 'src/@core/components/icon'
-
-// ** Custom Components Imports 
-import { getChartData } from "../../../Utils";
-
-const data = getChartData();
+ 
 
 const CustomTooltip = (props) => {
   // ** Props
@@ -32,24 +25,35 @@ const CustomTooltip = (props) => {
       <div className="recharts-custom-tooltip">
         <Typography
           sx={{ fontSize: "0.875rem" }}
-        >PV:{`${payload[0].value}`}</Typography>  
+        >Complaint:{`${payload[0].value}`}</Typography>  
         <Typography
         sx={{ fontSize: "0.875rem" }}
-      >UV:{`${payload[1].value}`}</Typography>
+      >Feedback:{`${payload[1].value}`}</Typography>
       </div>
     );
   }
 
   return null;
 };
+const formateDate=(data)=>{
+  const formattedDate=[];
+  
+  data?.map(row=>{
+    formattedDate.push({ Complaint:  row[1],
+      Feedback: row[2],
+      name:row[0]})
+   })
+  return formattedDate;
 
-const RechartsLineChart = ({ direction }) => {
+}
+
+const RechartsLineChart = ({ direction,data }) => {
   return (
     <Box sx={{ height: 350 }}>
       <ResponsiveContainer>
         <LineChart
           height={350}
-          data={data}
+          data={formateDate(data)}
           style={{ direction }}
           margin={{ left: -20 ,right:10}}
         >
@@ -57,8 +61,8 @@ const RechartsLineChart = ({ direction }) => {
           <XAxis dataKey="name"  />
           <YAxis orientation={direction === "rtl" ? "right" : "left"} />
           <Tooltip content={CustomTooltip} />
-          <Line dataKey="pv" stroke="#ff9f43" strokeWidth={3} />
-          <Line dataKey="uv" stroke="#82ca9d" strokeWidth={3} />
+          <Line dataKey="Complaint" stroke="#e11a1aad" strokeWidth={3} />
+          <Line dataKey="Feedback" stroke="#82ca9d" strokeWidth={3} />
         </LineChart>
       </ResponsiveContainer>
     </Box>

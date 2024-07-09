@@ -1,0 +1,49 @@
+.card{
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: #0080000a;
+    border: solid #00800012;
+    border-radius: 12px; 
+    padding: 38px;
+    filter: drop-shadow(0 30px 10px rgba(0, 0, 0, 0.125));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 200px;
+    width: fit-content;
+    min-height: 90px;
+    margin: 4px 10px;
+}
+.card header{
+    color: #fff;
+    position: absolute;
+    top: -63px;
+    background: #026584;
+    padding: 10px;
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+.admin-card{
+    height: calc(100vh - 576px); 
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+} 
+.card ul{ 
+    color:#000;
+    list-style-type: none;
+    text-align: left; 
+    font-weight: 500;
+    line-height: 24px;
+    margin: 0px;
+    padding: 0;
+}

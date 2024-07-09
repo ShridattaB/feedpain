@@ -116,3 +116,12 @@ export const getListOfUsers = async () => {
         }
     }
 }
+export const getAdminDashboard = async () => {
+    const res = await axios.get("/feedback/admin-dashboard-data");
+    if (res.status === 200) {
+        const { data, status } = res?.data;
+        if (status === "Success") {
+            return data;
+        }
+    }
+}
