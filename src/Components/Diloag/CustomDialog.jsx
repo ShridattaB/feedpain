@@ -1,14 +1,14 @@
 // ** React Imports
-import { useState, forwardRef } from "react";
+import { forwardRef } from "react";
 
 // ** MUI Imports
-import Dialog from "@mui/material/Dialog";
-import IconButton from "@mui/material/IconButton";
-import Fade from "@mui/material/Fade";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
 import CloseIcon from "@mui/icons-material/Close";
 import { DialogTitle, useMediaQuery } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Fade from "@mui/material/Fade";
+import IconButton from "@mui/material/IconButton";
 import { useTheme } from "@mui/system";
 
 // ** Icon Imports
@@ -24,15 +24,13 @@ const CustomDialog = ({
   dialogContentComponent,
   dialogActionsComponent,
   dialogTitle,
+  handelClose
 }) => {
-  const [languages, setLanguages] = useState([]);
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setLanguages(typeof value === "string" ? value.split(",") : value);
-  };
+  const onClose = () => {
+    setShow(false)
+    handelClose()
+  }
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   return (
@@ -42,14 +40,14 @@ const CustomDialog = ({
       open={show}
       maxWidth="md"
       scroll="body"
-      onClose={() => setShow(false)}
+      onClose={onClose}
       TransitionComponent={Transition}
-      onBackdropClick={() => setShow(false)}
+      onBackdropClick={onClose}
     >
       <DialogContent>
         <IconButton
           size="small"
-          onClick={() => setShow(false)}
+          onClick={onClose}
           sx={{ position: "absolute", right: "1rem", top: "1rem" }}
         >
           <CloseIcon />

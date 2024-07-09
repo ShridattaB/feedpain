@@ -64,10 +64,10 @@ export const uploadImage = async (data, count) => {
 }
 export const getComplaint = async () => {
     const res = await axios.get("/complaint/");
-    if (res.status === 200) {
+    if (res && res.status === 200) {
         const { data, status } = res?.data;
         if (status === "Success") {
-            return data;
+            return data || [];
         }
     }
 }
@@ -124,4 +124,10 @@ export const getAdminDashboard = async () => {
             return data;
         }
     }
+}
+export const changeRoleAPI = async (data) => {
+    return await axios.post("/user/change-role", data);
+}
+export const blockUnBlock = async (userId) => {
+    return await axios.get("/user/block-unblock?userId" + userId);
 }

@@ -20,8 +20,8 @@ export default function CustomSelect({
   width,
   margin,
   style,
+  showNone = true
 }) {
-  console.log(options)
   return (
     <FormControl className="custom-select">
       <InputLabel
@@ -43,13 +43,13 @@ export default function CustomSelect({
         style={{ margin: margin || "8px", width: width || "24ch", ...style }}
         onChange={handleChange}
       >
-        <MenuItem value="">
+        {showNone && <MenuItem value="">
           <em>None</em>
-        </MenuItem>
-
+        </MenuItem>}
+        {console.log(titleLabel, "op")}
         {options.map((option) => (
           <MenuItem value={option[valueLabel]}>
-            {titleLabel
+            {titleLabel.length && titleLabel
               .map((col) => option[col])
               .toString()
               .replaceAll(",", " ")}
